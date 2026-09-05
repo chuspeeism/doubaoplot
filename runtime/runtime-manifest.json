@@ -10,8 +10,8 @@
     },
     {
       "path": "NOTICE",
-      "size_bytes": 2472,
-      "sha256": "8282c13af1940bf4ceb745b648aeb28cd0931b5d298e735dc40011779f256c38"
+      "size_bytes": 3397,
+      "sha256": "2ebf6739027d0b6f7c27a5a8bb7c37087e2ad1bdaaee29cc4e936fd5a434c6b1"
     },
     {
       "path": "pyproject.toml",
@@ -210,8 +210,8 @@
     },
     {
       "path": "src/origin_sciplot/scientific_workflow.py",
-      "size_bytes": 220426,
-      "sha256": "af5b41a95653bf5e6f4fc476efe1c94ba3880b8fd4e94ba5628c524a53f5ce46"
+      "size_bytes": 220999,
+      "sha256": "29acef68becb0eb0e8eda333c0001b0f5654d4e9bb7ac550d549f83ce15eb071"
     },
     {
       "path": "src/origin_sciplot/semantic_analysis.py",

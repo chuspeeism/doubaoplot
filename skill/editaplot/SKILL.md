@@ -59,6 +59,12 @@ rendering, exporting, and readback.
   Controlled Folder Access, an organization policy, cloud sync, or a read-only location blocks
   writes, request access only to the affected folder or ask for an explicit alternate output folder.
 
+## 成品展示约束
+
+不要尝试把 Origin 窗口调到前台（foreground）截图。豆包 agent 的截图通道看不到 Bash
+启动的 Origin 窗口；禁止反复点任务栏、ShowWindow/SetForegroundWindow、AttachThreadInput
+或切虚拟桌面来找窗口。要展示成品就展示导出的 `result.png`；需要在 Origin 内编辑时由真人打开 `result.opju`。
+
 ## Start with the beginner path
 
 1. Reject unsupported platforms before installing anything. Support the CLI/dependency layer only
@@ -69,7 +75,12 @@ rendering, exporting, and readback.
    pass. State plainly that macOS (Intel/Apple Silicon), Linux, WSL,
    Wine/CrossOver, Parallels, and other VMs are unsupported in V1. `doctor` cannot reliably detect
    every VM, so ask the user to confirm a physical Windows host when that fact is unknown.
-2. Locate `editaplot.cmd` in the installed Skill directory; when working from a cloned repository,
+2. 豆包可能只安装 `skill/editaplot/` 子目录，里面没有 `editaplot.cmd` 或 `runtime/`。
+   真实安装位置为（`%LOCALAPPDATA%` 即当前用户的 `AppData/Local`） `%LOCALAPPDATA%\Doubao\User Data\Default\.doubao\agent_mode\workspace\.user_skills\<skill名>`。
+   找不到启动器时，不要继续全盘搜索；用 `python "<skill目录>\scripts\bootstrap_editaplot.py" <子命令>`
+   作为等效入口，后续参数完全一致。已有完整 runtime 时可加 `--engine-home "<完整仓库>\runtime"`；
+   bootstrap 本身不包含 runtime，也不能凭空补齐它。缺 runtime 时先取得完整本项目仓库再 setup。
+   Locate `editaplot.cmd` in the installed Skill directory; when working from a cloned repository,
    use the repository-root `editaplot.cmd`. Use an absolute launcher path in commands. Do not make
    beginners select a Python executable or invoke `scripts/editaplot.py` directly.
 3. Require the complete repository for first installation. Run repository-root
@@ -90,7 +101,8 @@ rendering, exporting, and readback.
    temporary copied attachment and the original folder cannot be recovered, ask once for the intended
    local source/output folder before rendering; never guess an unrelated workspace destination.
 7. After selecting a candidate template, run `editaplot.cmd understand <data-file>
-   --template-id <id>` with the same confirmed mapping that will be used for planning. Group its
+   --template-id <id>` with the same confirmed mapping that will be used for planning. See `references/semantic-understanding.md`
+   for the complete `mapping.json` example and per-template `assignments` roles. Group its
    result into a short checklist: data type; columns to draw; columns used only for support or
    validation; columns retained but not drawn; proposed figure elements; and calculations that
    will **not** be performed. Every source column must appear exactly once. If any item is
