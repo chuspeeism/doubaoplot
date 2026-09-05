@@ -97,6 +97,9 @@ def _candidate_skill_roots() -> list[Path]:
         override = os.environ.get(env_name)
         base = Path(override).expanduser() if override else (home / dot_dir)
         roots.append(base / "skills")
+    local_appdata = Path(os.environ.get("LOCALAPPDATA", str(home / "AppData" / "Local")))
+    doubao_root = local_appdata / "Doubao" / "User Data" / "Default" / ".doubao" / "agent_mode" / "workspace" / ".user_skills"
+    roots.insert(0, doubao_root)
     return roots
 
 
@@ -926,7 +929,13 @@ def install_skill(argv: list[str], *, _lock_held: bool = False) -> int:
                 "ok": False,
                 "error": {
                     "code": "engine_not_found",
-                    "message": "The EditaPlot runtime was not found; the existing Skill was unchanged.",
+                    "message": (
+                        "The EditaPlot runtime was not found; the existing Skill was unchanged. "
+                        "For a Skill-only Doubao installation without editaplot.cmd, use "
+                        'python "<skill-dir>/scripts/bootstrap_editaplot.py" <subcommand> '
+                        '--engine-home "<complete-repository>/runtime" with the same arguments. '
+                        "Bootstrap is an equivalent entry point, but still needs a complete runtime."
+                    ),
                     "target": str(target),
                 },
             },

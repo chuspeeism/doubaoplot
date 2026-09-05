@@ -27,7 +27,7 @@ from .circular_network_layout import (
 )
 from .data_loader import DataLoadError, LoadedTable, load_table
 from .heatmap_layout import heatmap_cell_labels_enabled
-from .palette_catalog import get_palette
+from .palette_catalog import get_palette, list_palettes
 from .scientific_visual import AdaptiveOriginStyle, resolve_adaptive_style
 from .shap_composite import (
     SHAP_COMPOSITE_PROFILES,
@@ -414,6 +414,12 @@ _PALETTE_OVERRIDE_MODE_BY_TEMPLATE: dict[str, str] = {
 }
 
 
+def compatible_template_palettes(template_id: str, *, public_only: bool = False):
+    """Share the plan's mode contract with discovery; semantic routes have no override."""
+    mode = "qualitative" if template_id == "xps" else _PALETTE_OVERRIDE_MODE_BY_TEMPLATE.get(template_id)
+    return () if mode is None else list_palettes(public_only=public_only, allowed_mode=mode)
+
+
 def apply_scientific_palette_override(
     preparation: ScientificPreparation,
     *,
@@ -436,7 +442,9 @@ def apply_scientific_palette_override(
     if required_mode not in palette.allowed_modes:
         raise ScientificWorkflowError(
             "palette_mode_incompatible",
-            f"Palette {requested} does not support {required_mode} use.",
+            f"Palette {requested} does not support {required_mode} use. "
+            f"Compatible palette_id values for {preparation.template_id}: "
+            + ", ".join(item.palette_id for item in compatible_template_palettes(preparation.template_id)),
         )
     spec = preparation.plot_spec
     style = spec.display_plan.figure_style

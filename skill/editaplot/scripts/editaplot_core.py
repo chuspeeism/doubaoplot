@@ -1484,7 +1484,12 @@ def _prepare_template_for_understanding(
         if mapping is not None:
             assignments = mapping.get("assignments")
             if not isinstance(assignments, dict):
-                raise EditaPlotError("mapping_invalid", "Mapping JSON needs an assignments object.")
+                raise EditaPlotError(
+                    "mapping_invalid",
+                    "Mapping JSON needs an assignments object mapping source column names to roles. "
+                    f"Expected roles for {template_id}: "
+                    + ", ".join(option.key for option in prepared.mapping_request.role_options),
+                )
             context = str(mapping.get("energy_kind") or mapping.get("plot_mode") or "")
             prepared = service.confirm_mapping(
                 prepared,
@@ -2109,7 +2114,12 @@ def build_plan(
         if mapping is not None:
             assignments = mapping.get("assignments")
             if not isinstance(assignments, dict):
-                raise EditaPlotError("mapping_invalid", "Mapping JSON needs an assignments object.")
+                raise EditaPlotError(
+                    "mapping_invalid",
+                    "Mapping JSON needs an assignments object mapping source column names to roles. "
+                    f"Expected roles for {template_id}: "
+                    + ", ".join(option.key for option in prepared.mapping_request.role_options),
+                )
             context = str(mapping.get("energy_kind") or mapping.get("plot_mode") or "")
             prepared = service.confirm_mapping(
                 prepared,
@@ -3994,13 +4004,24 @@ def palette_catalog(
     *,
     engine_home: str | Path | None = None,
     public_only: bool = True,
+    template_id: str | None = None,
 ) -> dict[str, Any]:
     root = bootstrap_engine(engine_home)
     try:
         from origin_sciplot.palette_catalog import list_palettes, palette_to_dict
     except Exception as exc:  # noqa: BLE001
         raise EditaPlotError("engine_import_failed", f"Could not import palette catalog: {exc}") from exc
-    palettes = [palette_to_dict(item) for item in list_palettes(public_only=public_only)]
+    available = list_palettes(public_only=public_only)
+    if template_id is not None:
+        from origin_sciplot.scientific_workflow import compatible_template_palettes
+        from origin_sciplot.template_service import TemplateServiceError, TemplateServiceRegistry
+
+        try:
+            TemplateServiceRegistry().get(template_id)
+        except TemplateServiceError as exc:
+            raise EditaPlotError(exc.code, str(exc)) from exc
+        available = compatible_template_palettes(template_id, public_only=public_only)
+    palettes = [palette_to_dict(item) for item in available]
     return {
         "schema_version": "1.0",
         "ok": True,

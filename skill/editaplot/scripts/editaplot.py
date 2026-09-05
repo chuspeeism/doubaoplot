@@ -63,6 +63,7 @@ def build_parser() -> argparse.ArgumentParser:
 
     palettes_parser = subparsers.add_parser("palettes", help="List Chinese-first scientific palettes")
     palettes_parser.add_argument("--all", action="store_true", help="Include advanced palettes")
+    palettes_parser.add_argument("--template-id", help="Only palettes compatible with this template")
     _engine_option(palettes_parser)
 
     inspect_parser = subparsers.add_parser("inspect", help="Profile a table without modifying it")
@@ -405,6 +406,7 @@ def main(argv: list[str] | None = None) -> int:
                 palette_catalog(
                     engine_home=args.engine_home,
                     public_only=not args.all,
+                    template_id=args.template_id,
                 )
             )
         elif args.command == "inspect":

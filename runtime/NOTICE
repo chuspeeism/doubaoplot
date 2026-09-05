@@ -40,3 +40,17 @@ Changes made in this distribution, per Apache-2.0 section 4(b):
 No upstream plotting behaviour, data contract, or verification gate is modified
 by these changes. This distribution is not endorsed by, affiliated with, or
 supported by the upstream EditaPlot author.
+
+Additional modifications (DoubaoPlot, 2026-09-05):
+  4. skill/editaplot/scripts/bootstrap_editaplot.py detects Doubao's Windows
+     LOCALAPPDATA workspace/.user_skills directory and explains the bootstrap
+     entry point when runtime discovery fails.
+  5. skill/editaplot/scripts/editaplot.py and editaplot_core.py add template-aware
+     palette discovery and actionable mapping-role errors. The shared palette
+     mode lookup and incompatible-palette message in
+     runtime/src/origin_sciplot/scientific_workflow.py are updated without changing
+     rendering behaviour or accepted palette modes.
+  6. skill/editaplot/SKILL.md and references/semantic-understanding.md document
+     Skill-only installation, exact mapping roles, palette filtering, and PNG
+     presentation instead of attempting to foreground Origin. Regression coverage
+     is added in tests/test_doubao_friction.py; the runtime manifest is rebuilt.
