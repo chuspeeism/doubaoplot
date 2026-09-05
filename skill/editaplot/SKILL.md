@@ -1,6 +1,6 @@
 ---
 name: doubaoplot
-description: DoubaoPlot。在豆包工作里把本地科研数据（CSV/TXT/XLS/XLSX）画成可继续编辑的 Origin 图。两种用法：① 用户给了参考图就复刻其绘图风格；② 用户只有数据、说不清要画什么图时，弹出图表选择器让他从 45 张真机示例里点一张。覆盖 XPS、XRD、XAS、PL/TRPL、DSC、NMR、FTIR/IR、UV-Vis、电化学、医学与机器学习证据图、分布、关系、误差棒、柱状、堆叠、饼图、桑基、雷达、热力图以及已验证的三维路线；产出可编辑 OPJU 并导出 PNG/PDF/TIF。Analyze local scientific CSV, TXT, XLS, or XLSX data; recommend publication-informed charts and Chinese scientific palettes; freeze a reproducible plan; and automate editable figures through a callable local Origin/OriginPro installation on physical Windows 10/11 x64. Do not use on macOS, Linux, WSL, Wine/CrossOver, Parallels, or other VMs; to install or modify Origin; to redistribute reference images; or to claim an unverified Origin route.
+description: DoubaoPlot。针对豆包/豆包工作优化，Codex、Claude Code 等 Agent 同样可用。把本地科研数据（CSV/TXT/XLS/XLSX）画成可继续编辑的 Origin 图。两种用法：① 用户给了参考图就复刻其绘图风格；② 用户只有数据、说不清要画什么图时，弹出图表选择器让他从 45 张真机示例里点一张。覆盖 XPS、XRD、XAS、PL/TRPL、DSC、NMR、FTIR/IR、UV-Vis、电化学、医学与机器学习证据图、分布、关系、误差棒、柱状、堆叠、饼图、桑基、雷达、热力图以及已验证的三维路线；产出可编辑 OPJU 并导出 PNG/PDF/TIF。Analyze local scientific CSV, TXT, XLS, or XLSX data; recommend publication-informed charts and Chinese scientific palettes; freeze a reproducible plan; and automate editable figures through a callable local Origin/OriginPro installation on physical Windows 10/11 x64. Do not use on macOS, Linux, WSL, Wine/CrossOver, Parallels, or other VMs; to install or modify Origin; to redistribute reference images; or to claim an unverified Origin route.
 ---
 
 # EditaPlot

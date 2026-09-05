@@ -16,6 +16,11 @@
 > | 2 | 面向用户的文档与提示词改写为豆包语境 | 上游文档以 Codex 为宿主叙述 |
 > | 3 | 在原有流程前面增加图表选择器 | 用户常常无法确定该画哪种图，也难以准确描述需求 |
 >
+> **宿主支持范围**：这是一个标准的 SKILL.md 技能，Codex、Claude Code 等能读 SKILL.md 的 Agent
+> 都能装能用，绘图能力完全一致。但**整体是针对豆包 / 豆包工作优化的** —— 安装目录解析、文档语气、
+> 提示词写法、图表选择器的交互，都是照着豆包用户的习惯做的。用别的 Agent 不影响功能，只是这些
+> 优化用不上。
+>
 > **未改动任何绘图行为、数据契约或验证门禁。** 完整改动声明见 [NOTICE](NOTICE)。
 > 名称 DoubaoPlot 为二次创作版本自用，不代表上游作者的背书或参与。绘图能力本身的问题请先查阅上游仓库。
 >
@@ -210,62 +215,152 @@ Origin 自动化阶段，其余任务自动等待。等待事件名为 `origin_j
 
 ## 开始使用
 
+> 这一章按豆包 / 豆包工作改写。**换成 Codex、Claude Code 等其他 Agent 也能用** ——
+> 把「在豆包工作里说这句」换成在你的 Agent 里说同一句即可，绘图流程完全一致。
+> 上游 EditaPlot 面向 Codex 的原始说明见 [上游仓库 README](https://github.com/hang-jin/editaplot#readme)。
+
 ### 1. 准备环境
 
 | 项目 | 你需要知道的事 |
 |---|---|
-| 系统 | 我目前完整验证的是 Windows 10/11 x64 实体电脑；Mac、Linux、WSL 与虚拟机版本暂未提供 |
-| Origin | 兼容目标为 Origin/OriginPro 2021–2026b；2024b（10.15）是当前唯一完整实机基线，其他目标版本会按本机握手、真实测试和模板能力报告 |
-| Python | 需要 64 位 Python 3.10–3.12；启动器会自动选择，你无需手动配置 |
-| 数据 | 你可以使用 CSV、TXT、XLS 或 XLSX，也可以保留中文列名与中文路径 |
+| 系统 | 只支持 Windows 10/11 x64 实体电脑。Origin 本身就是 Windows 软件，Mac、Linux、WSL 与虚拟机跑不了整条链路 |
+| Origin | 兼容 Origin/OriginPro 2021–2026b；2024b（10.15）是唯一完整实机验证过的版本，其他版本会按本机握手、真实测试和模板能力报告 |
+| Python | 需要 64 位 Python 3.10–3.12；启动器自动选择，你不用手动配置 |
+| 数据 | CSV、TXT、XLS、XLSX 都行，中文列名和中文路径也支持 |
 
-你不必先弄懂 Python 环境。我让根目录的 `editaplot.cmd` 先寻找电脑上已有的兼容 Python，再创建只属于本项目的环境。若完全找不到，启动器会返回明确的缺少 Python 诊断；此时 Codex 必须先用中文解释这项系统变更并等你同意，之后才可通过官方 winget 安装用户范围的 Python 3.12。没有 winget 时，我在安装指南中给出了 python.org 官方路径。这个过程不会安装或修改 Origin。Doctor 只做只读发现；正式绘图前的真实 smoke 才会自动启动专用 Origin 实例并验证连接。
+你不必先弄懂 Python 环境。根目录的 `editaplot.cmd` 会先找电脑上已有的兼容 Python，再创建只属于本项目的环境。完全找不到时，启动器会返回明确的缺少 Python 诊断，此时 Agent 必须先用中文解释这项系统变更并等你同意，之后才能通过官方 winget 安装用户范围的 Python 3.12。没有 winget 时，[安装指南](docs/installation.md)里给出了 python.org 的官方路径。这个过程不会安装或修改 Origin。
 
-### Codex 需要哪些权限
+### 需要给 Agent 哪些权限
 
-我建议按下面的最小范围批准，不需要把整台电脑交给 Codex：
+按下面的最小范围批准即可，不需要把整台电脑交出去：
 
 | 允许的范围 | 用途 |
 |---|---|
-| 读取完整 EditaPlot 仓库、你的数据文件和可选参考图 | 安装 Skill、理解列含义、制定绘图计划 |
-| 写入 EditaPlot 仓库和当前用户的 `$HOME\.codex\skills\editaplot` | 创建项目隔离环境并安装/更新 Skill |
-| 写入原始数据所在文件夹 | 在源文件旁新建时间戳交付文件夹；不会覆盖原文件 |
-| 运行本地 `editaplot.cmd`、PowerShell、Python，并在当前 Windows 用户会话启动 Origin | 完成环境检查、Automation smoke、绘图、导出和反读 |
-| 首次安装或更新时访问 GitHub、Python 包源；缺少 Python 时另行确认 winget | 下载公开源码和锁定依赖 |
+| 读取完整仓库、你的数据文件和可选参考图 | 安装 Skill、理解列含义、制定绘图计划 |
+| 写入本仓库和当前用户的 skills 目录 | 创建项目隔离环境并安装/更新 Skill |
+| 写入原始数据所在文件夹 | 在源文件旁新建时间戳交付文件夹，不覆盖原文件 |
+| 运行本地 `editaplot.cmd`、PowerShell、Python，并在当前 Windows 会话启动 Origin | 完成环境检查、Automation smoke、绘图、导出和反读 |
+| 首次安装或更新时访问 GitHub 与 Python 包源 | 下载公开源码和锁定依赖 |
 
-普通使用**不需要**管理员权限、鼠标控制、整个 C 盘写权限，也不需要修改 DCOM、注册表、防火墙或 Origin 安装。若 Windows“受控文件夹访问”、单位策略、OneDrive/网盘同步或只读目录阻止写入，请只放行当前仓库与当前数据文件夹，或明确选择另一个可写输出目录；不要把全局提权当作修复方法。
+普通使用**不需要**管理员权限、鼠标控制、整个 C 盘写权限，也不需要修改 DCOM、注册表、防火墙或 Origin 安装。如果 Windows「受控文件夹访问」、单位策略、网盘同步或只读目录挡住了写入，只放行当前仓库与当前数据文件夹，或者明确指定另一个可写的输出目录。不要用全局提权当修复手段。
 
-Codex 桌面版的普通命令可能由隔离账户运行。这个进程即使继承了你的 `USERNAME` 或
-`USERPROFILE`，也不一定拥有当前登录用户启动 Origin 的权限，所以我让 EditaPlot 读取当前进程
-真实的 Windows 安全令牌，而不是相信环境变量。检测到 Codex 沙箱时，它会在调用 Origin COM
-之前停止，并让 Codex 只针对这一条精确的 `origin-smoke` 或 `render` 命令发起正式、受限的本地
-执行申请。只有这条精确申请获批后，Codex 才会重新执行同一条 Origin 命令并继续当前任务；申请
-可以由你在提示时确认，也可以由已经配置的 Codex 自动审查评估，但审批不保证通过，自动审查也
-不等于提前赋予所有 Origin 命令权限。你不需要把命令复制到自己的 PowerShell，也不需要管理员
-权限、DCOM/注册表修改或所谓“绕过沙箱”。如果你所在组织或本机策略拒绝申请，任务会清楚停止，
-不会把失败包装成 Origin 已完成。
+**关于隔离账户**：宿主的普通命令有时由隔离账户运行。这个进程即使继承了你的 `USERNAME` 或 `USERPROFILE`，也不一定有权限用当前登录用户启动 Origin。所以本项目读取的是当前进程真实的 Windows 安全令牌，而不是环境变量。检测到隔离上下文时，它会在调用 Origin COM 之前停止，并针对那一条精确的 `origin-smoke` 或 `render` 命令发起受限的本地执行申请，获批后才重跑。你不需要把命令复制到自己的 PowerShell，也不需要管理员权限或修改注册表。
 
-EditaPlot 自带的 Python runtime 与 Origin 自动化不会主动把你的数据上传到网络；但你主动交给 Codex 的文件仍受你所使用的 Codex 账号、组织和数据保留策略约束。医学数据或参考图在交给 Codex 前必须按你所在机构的要求去标识化，并检查图像中是否烧录了身份信息；EditaPlot 不承诺自动发现 PHI。详见[隐私说明](PRIVACY.md)。
+EditaPlot 自带的 Python runtime 与 Origin 自动化不会主动把你的数据上传到网络；但你主动交给 Agent 的文件仍受你所用账号与组织的数据策略约束。医学数据或参考图在交给 Agent 前必须按你所在机构的要求去标识化，并检查图像中是否烧录了身份信息；EditaPlot 不承诺自动发现 PHI。详见[隐私说明](PRIVACY.md)。
 
-### 2. 安装 Codex Skill
+### 2. 安装 Skill
+
+**在豆包工作里直接说这句：**
+
+```text
+帮我安装 GitHub 上 chuspeeism 的 doubaoplot Skill
+```
+
+如果你还没装 Origin，再补一句「帮我安装 Origin」。
+
+**在别的 Agent 里**（Codex、Claude Code 等）：把上面那句话原样说给它即可。
+
+**手动安装**（Agent 装不上时的备选）：
 
 ```powershell
-git clone https://github.com/hang-jin/editaplot.git
-Set-Location editaplot
+git clone https://github.com/chuspeeism/doubaoplot.git
+Set-Location doubaoplot
 .\editaplot.cmd setup
 ```
 
-请下载或克隆完整仓库，因为 `skill/editaplot` 和绘图 `runtime/` 需要一起工作。只复制 Skill 子目录会缺少绘图引擎。如果你不会使用 GitHub，也可以直接下载 Source ZIP，完整解压后在该目录运行同一条 `setup` 命令。详见[安装指南](docs/installation.md)。
+必须下载或克隆**完整仓库**，因为 `skill/editaplot` 和绘图 `runtime/` 要一起工作，只复制 Skill 子目录会缺少绘图引擎。不会用 GitHub 的话，直接下载 Source ZIP，完整解压后在该目录运行同一条 `setup`。
 
-重新打开一个 Codex 任务后使用 `$editaplot`。第一次处理数据，只需：
+`setup` 会按这个顺序找安装位置，并把**实际选中的路径打印出来**：
+
+1. `EDITAPLOT_SKILL_DIR` 环境变量
+2. 本机已经存在的宿主 skills 目录（`~/.doubao/skills`、`~/.codex/skills` 这类）
+3. 都找不到就回落到 `~/.codex/skills/doubaoplot`
+
+如果你的 Agent 读的不是打印出来的那个目录，设一下环境变量重装：
 
 ```powershell
-.\editaplot.cmd start "$HOME\Documents\my-data.csv"
+$env:EDITAPLOT_SKILL_DIR = "<你的 Agent 的 skills 目录>\doubaoplot"
+.\editaplot.cmd setup
 ```
 
-如果你是第一次使用，最简单的方法是把文件拖进 Codex，然后说：“请使用 `$editaplot` 帮我画这份数据。”我会让 EditaPlot 完成环境检查、只读识别与候选图推荐，再给出逐列用途和图形元素清单；你只需确认科学目的与这份清单，只有判断不够明确时才需要补充列义、误差或变换等关键细节。熟悉命令行后，也可以使用下面这些命令：
+（上游写死装到 `~/.codex/skills`，装进豆包会表面成功、实际读不到。这是本项目修的主要一处。）
 
-正式绘图时，我会让 EditaPlot 在原始 CSV、TXT、XLS 或 XLSX 所在目录中，新建一个与源文件同级的 `<数据文件名>_EditaPlot_<时间>` 文件夹，并把 render-plan、OPJU、PNG、PDF、TIF、反读与验证结果集中放进去。它不会覆盖原始数据；只有你明确指定其他位置时，才会改变输出目录。
+### 3. 两种用法
+
+装完之后，重新开一个任务（豆包工作、Codex、Claude Code 都行）。
+
+**用法一：你有参考图 —— 照着复刻**
+
+把参考图和你的数据文件一起发给 Agent，然后说：
+
+```text
+帮我在 Origin 中，用我的数据复刻这张参考图的绘图风格
+```
+
+参考图只影响样式，不制造数据。你数据里没有的东西，它不会编出来凑成参考图的样子。
+
+**用法二：你不知道该画什么图 —— 点着选**
+
+这是更常见的情况。直接调用 Skill 说：
+
+```text
+我不知道该画什么图，帮我看看
+```
+
+它会弹出**图表选择器** —— 45 张真机跑出来的 Origin 示例图铺开，按方向分好类。你点中一张，右侧立刻显示这张图需要你的数据里有哪几列、这条路线的边界、推荐配色和出图规格。选完点「发送给豆包」，或者点「复制」再粘回对话框。用别的 Agent 时走「复制」这条路。
+
+页面永远先把内容放进剪贴板再去试自动发送，所以自动发送没成也不会卡住。
+
+### 4. 完整的提示词
+
+第一次用，最省事的做法是把文件拖进 Agent，然后发这段：
+
+```text
+请帮我画这份数据。不要修改原文件；先告诉我识别到哪些列、最推荐哪种图，
+再逐列说明哪些要画、哪些只作辅助或验证、哪些保留但不画，并列出最终图形元素和不会自动进行的
+计算。若有不确定列，请先问我，不要猜。若需要安装 Python，请先征得我同意；不要安装或修改 Origin。
+等我确认科学目的和元素清单后再绘图，完成后请检查可编辑项目和 PNG、PDF、TIF。
+我不需要提前打开 Origin。Doctor 只做只读发现；请在绘图前运行真实 smoke，
+自动启动专用 Origin 实例并按当前版本和模板能力继续。
+不要让我复制 PowerShell、使用管理员权限或修改 DCOM/注册表。
+```
+
+如果还提供了参考图，接着说：
+
+```text
+请把参考图只当作视觉简报：总结它的图形元素、布局、数据编码和可安全采用的风格，
+不要复制图中的数据、文字、拟合结果、物相、Logo 或水印，也不要把参考图嵌入成图。
+请另外询问并记录我明确选择的系列颜色、线宽、填充透明度、画幅比例和图例显示/无框/位置；
+我的明确选择优先于参考图。请分别列出「采用、保留模板默认、拒绝、仍需确认」的内容，
+只有当前模板已经验证并能反读的样式才算采用，等我确认后再适配到我的数据。
+```
+
+正式绘图时：
+
+```text
+请按已确认的 RenderPlan 自动启动专用 Origin 实例并绘制，成功后保留可编辑 Origin 窗口；
+若 smoke 或绘图失败，只简要报告技术阶段和下一步。导出 OPJU、PNG、PDF、TIF，并完成轴、
+字体、图层、数据映射反读和人工视觉检查。不要只看 PNG 报成功。
+```
+
+### 5. 它最后给你什么
+
+**不是一张图片，是一个文件夹**，建在你数据文件旁边，叫 `<数据文件名>_EditaPlot_<时间戳>`。
+
+| 文件 | 是什么 |
+|---|---|
+| **`result.opju`** | **Origin 工程文件，核心是它**。双击打开，颜色、坐标轴、图例、文字全都能接着改 |
+| `result.png` | 插 Word、发群里 |
+| `result.pdf` | 矢量，投稿常要 |
+| `result.tif` | 期刊最常点名要的格式 |
+
+画完 Origin 窗口默认不关，图就摆在那儿，可以直接上手改。同一个文件夹里还有 `origin_verify_report.json`，是画完之后回头去 Origin 里把坐标轴、字体、图层重新读一遍的核对报告。
+
+它不会覆盖你的原始数据。只有你明确指定其他位置时才会改变输出目录。
+
+### 6. 命令行用法（可选）
+
+熟悉命令行之后也可以直接跑：
 
 ```powershell
 .\editaplot.cmd doctor
@@ -280,45 +375,15 @@ $smokeDir = Join-Path $env:TEMP ("EditaPlot-origin-smoke-" + (Get-Date -Format "
 .\editaplot.cmd verify <Origin-output-directory>
 ```
 
-仓库已经包含运行所需的 `runtime/`。`origin-smoke` 会先启动 EditaPlot 自有的隔离 Origin
-实例并完成最小导出闭环；只有 smoke 通过后才进入正式 render。日常使用可以忽略
-`--engine-home`；只有你主动替换内置引擎时才需要它。普通绘图请省略 `render` 的
-`--output-dir`，这样正式结果会自动保存到源数据同级的新文件夹。
+仓库已经包含运行所需的 `runtime/`。`origin-smoke` 会先启动隔离的 Origin 实例完成最小导出闭环，只有 smoke 通过才进入正式 render。日常使用可以忽略 `--engine-home`。普通绘图请省略 `render` 的 `--output-dir`，正式结果会自动存到源数据同级的新文件夹。
 
-### 3. 直接复制给 Codex 的提示词
+### 7. 有 17 种图它画不了
 
-```text
-请使用 $editaplot 帮我画这份数据。不要修改原文件；先告诉我识别到哪些列、最推荐哪种图，
-再逐列说明哪些要画、哪些只作辅助或验证、哪些保留但不画，并列出最终图形元素和不会自动进行的
-计算。若有不确定列，请先问我，不要猜。若需要安装 Python，请先征得我同意；不要安装或修改 Origin。
-等我确认科学目的和元素清单后再绘图，完成后请检查可编辑项目和 PNG、PDF、TIF。
-我不需要提前打开 Origin。Doctor 只做只读发现；请在绘图前运行真实 smoke，
-自动启动专用 Origin 实例并按当前版本和模板能力继续。
-若只因 Codex 沙箱上下文停止，请为原来的精确 Origin 命令发起正式、受限的本地执行申请；
-只有申请获批后才重跑，审批不保证通过。不要让我复制 PowerShell、使用管理员权限或修改 DCOM/注册表。
-```
+Origin 本身画得出来，但这个 Skill 没写对应的绘图路线。完整清单见 [`skill/editaplot/references/not-covered.md`](skill/editaplot/references/not-covered.md)。
 
-如果还提供了参考图，可以接着说：
+最容易被问到的是**生存曲线（Kaplan-Meier）**：医学组里做了 ROC、PR、DCA、校准曲线、混淆矩阵、Bland–Altman，唯独没有 KM。
 
-```text
-请把参考图只当作视觉简报：总结它的图形元素、布局、数据编码和可安全采用的风格，
-不要复制图中的数据、文字、拟合结果、物相、Logo 或水印，也不要把参考图嵌入成图。
-请另外询问并记录我明确选择的系列颜色、线宽、填充透明度、画幅比例和图例显示/无框/位置；
-我的明确选择优先于参考图。请分别列出“采用、保留模板默认、拒绝、仍需确认”的内容，
-只有当前模板已经验证并能反读的样式才算采用，等我确认后再适配到我的数据。
-```
-
-如果是 XPS，你还可以只补一句：“这次选精确自定义；Raw 用 `#173F5F`，线宽 `2.4 pt`，
-填充透明度 `38%`，画幅 `18 × 18 cm`，隐藏无框图例。”我会先核对字段并写入
-`--visual-style-json`，不会把不支持的值装作已经采用。
-
-需要正式绘图时：
-
-```text
-请按已确认的 RenderPlan 自动启动专用 Origin 实例并绘制，成功后保留可编辑 Origin 窗口；
-若 smoke 或绘图失败，只简要报告技术阶段和下一步。导出 OPJU、PNG、PDF、TIF，并完成轴、
-字体、图层、数据映射反读和人工视觉检查。不要只看 PNG 报成功。
-```
+**PCA / t-SNE / UMAP** 能画，但降维坐标得你自己先算好，它只负责把算好的坐标画成分组散点。
 
 ## 公开仓库里有什么，哪些内容留在本地
 

@@ -13,7 +13,14 @@
 > (Doubao Work) skill directory; user-facing docs and prompts are rewritten for Doubao users; and an
 > interactive chart selector runs ahead of the existing workflow so a user picks a chart visually
 > instead of describing it in prose. **No plotting behaviour, data contract, or verification gate is
-> modified.** See [NOTICE](NOTICE) for the full statement of changes. The name DoubaoPlot belongs to
+> **Host support:** this is a standard SKILL.md skill — Codex, Claude Code and any other
+> SKILL.md-reading agent can install and run it, with identical plotting behaviour. It is however
+> **optimized for 豆包 / 豆包工作 (Doubao / Doubao Work)**: directory resolution, doc tone, prompt
+> wording and the selector's interaction are all built around Doubao users. Other agents work fine;
+> those optimizations simply do not apply.
+>
+> **No plotting behaviour, data contract, or verification gate is modified.**
+> See [NOTICE](NOTICE) for the full statement of changes. The name DoubaoPlot belongs to
 > this derivative version only and implies no endorsement by or involvement of the upstream author.
 
 <div align="center">
