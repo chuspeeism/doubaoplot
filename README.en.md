@@ -1,3 +1,21 @@
+> [!NOTE]
+> ## DoubaoPlot: a derivative work built on EditaPlot
+>
+> **This project is a derivative work of [hang-jin/editaplot](https://github.com/hang-jin/editaplot)
+> (Apache-2.0), based on upstream commit `4aa986f`.**
+>
+> **The foundation and the original idea are entirely hang-jin's.** Having an AI read scientific data,
+> recommend a figure type, and drive a local Origin installation to produce an editable figure — that
+> concept and its full implementation (40 Origin plotting routes, the verification gates, 45 verified
+> example figures, 10 scientific palettes) are hang-jin's work, used unchanged.
+>
+> Three additions were made on top of that foundation: skill installation also targets the 豆包工作
+> (Doubao Work) skill directory; user-facing docs and prompts are rewritten for Doubao users; and an
+> interactive chart selector runs ahead of the existing workflow so a user picks a chart visually
+> instead of describing it in prose. **No plotting behaviour, data contract, or verification gate is
+> modified.** See [NOTICE](NOTICE) for the full statement of changes. The name DoubaoPlot belongs to
+> this derivative version only and implies no endorsement by or involvement of the upstream author.
+
 <div align="center">
   <img src="runtime/src/origin_sciplot/resources/app_icon.png" width="96" alt="EditaPlot icon">
   <h1>EditaPlot</h1>

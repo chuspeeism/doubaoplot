@@ -2318,10 +2318,10 @@ def test_public_skill_metadata_and_legal_copies_are_self_contained() -> None:
     metadata = yaml.safe_load(frontmatter)
     agent = yaml.safe_load((SKILL_ROOT / "agents" / "openai.yaml").read_text(encoding="utf-8"))
 
-    assert metadata["name"] == "editaplot"
+    assert metadata["name"] == "doubaoplot"
     assert "Origin/OriginPro" in metadata["description"]
     assert "# EditaPlot" in body
-    assert agent["interface"]["display_name"] == "EditaPlot"
+    assert agent["interface"]["display_name"].startswith("EditaPlot")
     default_prompt = agent["interface"]["default_prompt"]
     assert "Origin Automation" in default_prompt
     assert not any(

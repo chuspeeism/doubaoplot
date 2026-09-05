@@ -131,7 +131,12 @@ def test_beginner_docs_define_scoped_codex_permissions_without_admin_recovery() 
 
     for path in documents:
         compact = " ".join(path.read_text(encoding="utf-8").split()).casefold()
-        assert ".codex" in compact or "codex skill" in compact
+        # 豆包工作版把宿主写法放宽了：上游只讲 Codex，这里也接受"skill 目录"这类中性表述。
+        # 断言的意图没变 —— 文档必须写明只写受限的 skill 目录。
+        assert any(
+            token in compact
+            for token in (".codex", "codex skill", "skill directory", "skill 目录")
+        )
         assert any(
             token in compact
             for token in ("source", "原始数据", "data folder", "selected-data")

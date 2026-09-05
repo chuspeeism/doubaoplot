@@ -1,6 +1,6 @@
 ---
-name: editaplot
-description: Analyze local scientific CSV, TXT, XLS, or XLSX data; recommend publication-informed charts and Chinese scientific palettes; freeze a reproducible plan; and automate editable figures through a callable local Origin/OriginPro installation on physical Windows 10/11 x64. Use for beginner “drop in a file and draw it” requests; XPS, XRD, XAS, PL/TRPL, DSC, NMR, FTIR/IR, UV-Vis, electrochemistry, medical/AI evidence, distribution, relationship, error-bar, bar, stacked, pie, Sankey, radar, heatmap, or verified 3D workflows; project-local Python setup; palette selection; and OPJU/PNG/PDF/TIF verification. Do not use on macOS, Linux, WSL, Wine/CrossOver, Parallels, or other VMs; to install or modify Origin; to redistribute reference images; or to claim an unverified Origin route.
+name: doubaoplot
+description: DoubaoPlot。在豆包工作里把本地科研数据（CSV/TXT/XLS/XLSX）画成可继续编辑的 Origin 图。两种用法：① 用户给了参考图就复刻其绘图风格；② 用户只有数据、说不清要画什么图时，弹出图表选择器让他从 45 张真机示例里点一张。覆盖 XPS、XRD、XAS、PL/TRPL、DSC、NMR、FTIR/IR、UV-Vis、电化学、医学与机器学习证据图、分布、关系、误差棒、柱状、堆叠、饼图、桑基、雷达、热力图以及已验证的三维路线；产出可编辑 OPJU 并导出 PNG/PDF/TIF。Analyze local scientific CSV, TXT, XLS, or XLSX data; recommend publication-informed charts and Chinese scientific palettes; freeze a reproducible plan; and automate editable figures through a callable local Origin/OriginPro installation on physical Windows 10/11 x64. Do not use on macOS, Linux, WSL, Wine/CrossOver, Parallels, or other VMs; to install or modify Origin; to redistribute reference images; or to claim an unverified Origin route.
 ---
 
 # EditaPlot
@@ -9,17 +9,46 @@ Turn a scientific question and a read-only table into an auditable, editable Ori
 the beginner experience conversational; use the deterministic engine for inspection, planning,
 rendering, exporting, and readback.
 
+## 先决定走哪条路（豆包工作版新增）
+
+用户一进来，先看他手上有什么，再决定怎么走。**不要在用户没给方向的时候就开始猜图型。**
+
+| 用户给了什么 | 走哪条 | 怎么做 |
+|---|---|---|
+| **一张参考图**（"照这个画""复刻这个风格"） | **参考图模式** | 走原有流程，从第 10 步 `reference-inspect` 进入。参考图只影响已确认数据支撑得住的图形语法与安全样式，不新增证据、不隐藏必需元素。 |
+| **点名了图型**（"画个雨云图""ROC 曲线"） | **直接模式** | 走原有流程。先对照 `references/not-covered.md`；如果用户要的图在那张表里，直接说清楚没有这条路线，别硬试。 |
+| **只有数据，没说要什么图**，或明说"不知道该画哪种" | **选择器模式** | 见下方。这是本版新增的路径，也是最常见的情况。 |
+
+### 选择器模式
+
+用户不知道自己要什么图的时候，让他**看着选**，比让他**描述**准得多。
+
+1. 运行 `python selector/selector.py`。它会打开一个本地页面：45 张真机跑出来的 Origin 示例图铺开，
+   按方向分好类；用户点中一张，右侧会显示这张图**需要哪几列数据**，并自动拼好一段完整请求。
+   - 宿主自己有内置浏览器面板时，改用 `python selector/selector.py --print-path`，
+     拿到路径后用面板打开，不要另外弹窗口。
+2. 用户在页面上点「发送给豆包」，脚本会把拼好的请求收下来打到标准输出；
+   点「复制」的话内容在他剪贴板里，请他粘过来。**两条路都通，别只等一条。**
+3. 拿到这段请求后，**回到原有流程的第 6 步**继续（`start` → `understand` → 确认 → `plan` → 渲染 → 验证）。
+   选择器只负责把需求问清楚，它不改变任何绘图行为，也不跳过任何确认环节。
+
+**选择器给出的「需要哪几列」是提示，不是结论。** 用户的数据到底有没有这些列，仍然由第 7 步
+`understand` 逐列核对；缺列就照常告诉用户缺什么，不要因为他在页面上点过就默认数据齐了。
+
+如果 `selector.py` 起不来（端口全被占、没有图形界面），不要卡住：把页面路径给用户，
+让他自己双击打开、点「复制」再粘回来，流程照旧。
+
 ## Request only scoped Windows permissions
 
 - Read the complete repository, selected table, and optional local reference image.
-- Write only to the EditaPlot repository, the current user's Codex Skill directory, and the selected
+- Write only to the EditaPlot repository, the current user's skill directory (豆包工作 or Codex), and the selected
   source file's parent folder for source-adjacent deliverables.
 - Run the local launcher, PowerShell/Python subprocesses, and an EditaPlot-owned Origin instance in
   the same active interactive Windows user session.
-- A normal Codex command may first run under an isolated account. If the Origin worker returns
+- A normal host command may first run under an isolated account. If the Origin worker returns
   `origin_codex_sandbox_context`, submit a formal, narrowly scoped local-execution request for that
   exact `origin-smoke` or `render` command. Rerun it only if that exact request is approved, either
-  by the user when prompted or by the configured Codex auto-reviewer. Approval is not guaranteed,
+  by the user when prompted or by the host's configured auto-reviewer. Approval is not guaranteed,
   and this handoff is not a sandbox bypass. Never ask the user to copy the command into a separate
   PowerShell window or broaden the request to administrator or system-configuration access.
 - Use network access only for repository download/update and locked dependency retrieval. Treat a
@@ -76,7 +105,7 @@ rendering, exporting, and readback.
    proposal hash changes. When confidence is low, candidate margins are small, roles or units are
    ambiguous, or a display transformation is proposed, ask only the additional focused questions
    needed.
-10. If the user supplies a reference figure, first run `reference-inspect`. Codex may then describe
+10. If the user supplies a reference figure, first run `reference-inspect`. You may then describe
    only its panel/mark/encoding/layout/style grammar in the strict ReferenceFigureSpec JSON and run
    `reference-review`; the runtime performs no OCR or model inference. Show the adopted and rejected
    features, bind every essential mark to confirmed renderable user data, and obtain a separate
@@ -204,7 +233,7 @@ Before any render, read `references/origin-safety.md`, `references/figure-contra
   焦点固定为 Z=0 基线 locator；不要计算 KDE、峰值、阈值、交点或焦点。当前主机还必须先通过
   实时 smoke 与 `OPEN_GL_3D` 能力检查，不能只凭模板已验证就跳过主机门禁。
 - Do not send selected files to any additional network service or include them in public artifacts.
-  A file explicitly provided through Codex remains subject to the user's Codex account,
+  A file explicitly provided through the host remains subject to the user's host account,
   organization, and retention policies; do not claim the Skill can override those policies.
 - Before inspecting medical data or reference images, require the user to confirm that the material
   follows their institution's rules, is deidentified, and has been checked for burned-in text.
@@ -247,6 +276,9 @@ technical paths after the concise outcome.
 
 - `references/runtime.md`: launcher, setup, Python discovery, CLI commands, and artifacts.
 - `references/chart-selection.md`: chart families, ranking rules, and support levels.
+- `references/not-covered.md`（豆包工作版新增）：本 skill **没有**绘图路线的 17 种图表。
+  用户点名要其中任何一种时，先看这份，直接说清楚，不要硬试。
+- `selector/selector.py`（豆包工作版新增）：图表选择器。用户说不清要画什么图时用它。
 - `references/data-contracts.md`: accepted layouts, column semantics, and repair guidance.
 - `references/semantic-understanding.md`: per-column use, element checklist, derived-data lineage,
   and the hash-bound confirmation gate.

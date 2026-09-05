@@ -66,6 +66,54 @@ PROBE_CODE = (
 )
 
 
+
+# ── 豆包工作版新增：安装目录解析 ────────────────────────────────────────────
+# 上游把 Skill 固定装到 ~/.codex/skills/editaplot。装到豆包工作里时那个目录它看不见，
+# 于是 setup 表面成功、实际白装。这里按优先级找一个真正合适的目标：
+#
+#   1. EDITAPLOT_SKILL_DIR —— 显式指定，最高优先级，任何宿主都能用这个兜底
+#   2. 已经存在的宿主 skills 目录 —— 只认已经存在的，不凭空造目录
+#   3. 回落到上游行为（CODEX_HOME / ~/.codex/skills）
+#
+# 各家宿主的 skills 目录由宿主自己定义，不是本项目能约定的。所以这里只探测「已经
+# 存在」的候选，探测不到就老老实实回落，并且把最终选中的路径打出来 —— 装错地方
+# 至少要看得见，而不是静默装到一个没人读的目录里。
+
+SKILL_DIRECTORY_NAME = "doubaoplot"
+
+_HOST_SKILL_PARENTS = (
+    ("DOUBAO_HOME", ".doubao"),
+    ("DOUBAO_WORK_HOME", ".doubao-work"),
+    ("CODEX_HOME", ".codex"),
+)
+
+
+def _candidate_skill_roots() -> list[Path]:
+    """列出可能的宿主 skills 目录，按优先级排。"""
+
+    roots: list[Path] = []
+    home = Path.home()
+    for env_name, dot_dir in _HOST_SKILL_PARENTS:
+        override = os.environ.get(env_name)
+        base = Path(override).expanduser() if override else (home / dot_dir)
+        roots.append(base / "skills")
+    return roots
+
+
+def resolve_skill_target() -> tuple[Path, str]:
+    """返回 (安装目标, 这个目标是怎么定出来的)。"""
+
+    explicit = os.environ.get("EDITAPLOT_SKILL_DIR")
+    if explicit:
+        return Path(explicit).expanduser(), "EDITAPLOT_SKILL_DIR"
+
+    for root in _candidate_skill_roots():
+        if root.is_dir():
+            return root / SKILL_DIRECTORY_NAME, f"detected:{root}"
+
+    codex_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))).expanduser()
+    return codex_home / "skills" / SKILL_DIRECTORY_NAME, "fallback:codex"
+
 def _emit(payload: dict[str, Any], *, stream: Any = sys.stdout) -> None:
     print(json.dumps(payload, ensure_ascii=False, indent=2), file=stream, flush=True)
 
@@ -786,8 +834,9 @@ def install_skill(argv: list[str], *, _lock_held: bool = False) -> int:
         _emit({"ok": False, "error": argument_error}, stream=sys.stderr)
         return 2
     if target is None:
-        codex_home = Path(os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))).expanduser()
-        target = codex_home / "skills" / "editaplot"
+        target, origin = resolve_skill_target()
+        _emit({"ok": True, "info": {"code": "skill_target_resolved",
+                                    "target": str(target), "resolved_by": origin}})
     if target.is_symlink():
         _emit(
             {
@@ -1099,10 +1148,7 @@ def _setup_filesystem_failure(
 
     requested_target, _argument_error = _parse_setup_target(argv)
     if requested_target is None:
-        codex_home = Path(
-            os.environ.get("CODEX_HOME", str(Path.home() / ".codex"))
-        ).expanduser()
-        requested_target = codex_home / "skills" / "editaplot"
+        requested_target, _origin = resolve_skill_target()
     permission_denied = isinstance(error, PermissionError)
     _emit(
         {

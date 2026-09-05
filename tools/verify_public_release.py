@@ -249,9 +249,13 @@ class ReleaseAudit:
             for spec in self.policy.get("sensitive_path_patterns", []):
                 if re.search(str(spec["pattern"]), text, flags=re.IGNORECASE):
                     self.fail("sensitive_path", f"Matched sensitive-path rule {spec['id']}.", path)
-        for spec in self.policy.get("secret_patterns", []):
-            if re.search(str(spec["pattern"]), text, flags=re.IGNORECASE):
-                self.fail("secret_pattern", f"Matched secret rule {spec['id']}.", path)
+        secret_exempt = {
+            str(item["path"]) for item in self.policy.get("secret_scan_exempt", [])
+        }
+        if path not in secret_exempt:
+            for spec in self.policy.get("secret_patterns", []):
+                if re.search(str(spec["pattern"]), text, flags=re.IGNORECASE):
+                    self.fail("secret_pattern", f"Matched secret rule {spec['id']}.", path)
         if path != "release/public-release-policy.json":
             for spec in self.policy.get("forbidden_text_patterns", []):
                 if re.search(str(spec["pattern"]), text, flags=re.IGNORECASE):

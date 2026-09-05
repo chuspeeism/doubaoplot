@@ -1,3 +1,26 @@
+> [!NOTE]
+> ## DoubaoPlot：在 EditaPlot 基础上的二次创作
+>
+> **本项目是 [hang-jin/editaplot](https://github.com/hang-jin/editaplot)（Apache-2.0）的二次创作，
+> 基于上游提交 `4aa986f`。**
+>
+> **整个项目的基底和灵感都来自 hang-jin。** 让 AI 理解科研数据、推荐图形、调用本机 Origin
+> 画出可继续编辑的图，这套想法和它的全部实现——40 条 Origin 绘图路线、验证门禁、45 张实机示例图、
+> 10 组科研配色——都是 hang-jin 的工作。我们一行没改。
+>
+> 我们在这个基底上做的二次创作有三处：
+>
+> | # | 内容 | 起因 |
+> |---|---|---|
+> | 1 | Skill 安装目录支持豆包工作 | 上游默认装到 `~/.codex/skills/`，豆包工作读不到该目录 |
+> | 2 | 面向用户的文档与提示词改写为豆包语境 | 上游文档以 Codex 为宿主叙述 |
+> | 3 | 在原有流程前面增加图表选择器 | 用户常常无法确定该画哪种图，也难以准确描述需求 |
+>
+> **未改动任何绘图行为、数据契约或验证门禁。** 完整改动声明见 [NOTICE](NOTICE)。
+> 名称 DoubaoPlot 为二次创作版本自用，不代表上游作者的背书或参与。绘图能力本身的问题请先查阅上游仓库。
+>
+> **豆包工作用户从这里开始 → [豆包工作使用说明.md](豆包工作使用说明.md)**
+
 <div align="center">
   <img src="runtime/src/origin_sciplot/resources/app_icon.png" width="96" alt="EditaPlot 图标">
   <h1>EditaPlot · 艾迪图</h1>

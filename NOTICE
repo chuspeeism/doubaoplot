@@ -13,3 +13,30 @@ distributed by this repository.
 The scientific palette assets in this repository are independently redrawn from normalized HEX
 values. Source reference images, journal cover artwork, logos, and watermarks are not redistributed.
 The palettes are not official specifications of Nature, Science, ACS, or any journal.
+
+--------------------------------------------------------------------------------
+Modifications in this distribution (DoubaoPlot, a derivative work of EditaPlot)
+--------------------------------------------------------------------------------
+
+DoubaoPlot is a derivative work of EditaPlot, built on the upstream project at
+https://github.com/hang-jin/editaplot and redistributed under the same Apache
+License, Version 2.0. The foundation and the original concept are hang-jin's. All
+plotting logic, Origin automation routes, verification gates, gallery assets, and
+scientific palettes are the work of the upstream EditaPlot contributors and are
+used unchanged. The name DoubaoPlot applies to this derivative version only.
+
+Changes made in this distribution, per Apache-2.0 section 4(b):
+
+  1. Skill installation targets the 豆包工作 (Doubao Work) skill directory in
+     addition to the upstream Codex directory, resolved by environment variable
+     with autodetection and a fallback to the upstream behaviour.
+  2. User-facing documentation and prompts are rewritten for 豆包工作 users.
+     Technical identifiers, error codes, and sandbox-detection logic are
+     unchanged.
+  3. An interactive chart selector is added ahead of the existing workflow, so a
+     user picks a chart visually instead of describing it in prose. It only
+     assembles a request; it does not alter how anything is drawn.
+
+No upstream plotting behaviour, data contract, or verification gate is modified
+by these changes. This distribution is not endorsed by, affiliated with, or
+supported by the upstream EditaPlot author.

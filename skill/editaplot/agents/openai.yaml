@@ -1,4 +1,4 @@
 interface:
-  display_name: "EditaPlot"
-  short_description: "丢入数据，自动选图并生成可编辑 Origin 科研图"
-  default_prompt: "请使用 $editaplot 检查环境并只读分析我提供的数据，推荐合适图形；先让我确认一句科学目的，低置信度时再追加必要问题。确认后冻结方案，通过本机 Origin Automation 绘制并验证可编辑科研图。若仅因 Codex 沙箱上下文停止，请为同一条 origin-smoke 或 render 命令发起正式、受限的本地执行申请；只有精确申请获批后才重跑，人工确认或已配置的自动审查都可评估本次申请，但审批不保证通过。不要让我复制 PowerShell、使用管理员权限或修改 DCOM/注册表；其他连接失败只简要报告技术阶段和下一步。"
+  display_name: "EditaPlot · 豆包工作版"
+  short_description: "不知道画什么图就点一张；给了参考图就照着复刻。出可编辑的 Origin 图"
+  default_prompt: "请使用 doubaoplot 帮我出一张可编辑的 Origin 科研图。如果我给了参考图，就复刻它的绘图风格；如果我只给了数据、没说要画什么，先打开图表选择器让我从示例里点一张。选定之后只读分析我的数据，逐列说明用途，让我确认一句科学目的和图形要素，再冻结方案、调用本机 Origin Automation 绘制并验证。不要替我平滑数据、删异常值、补峰、算误差或拟合曲线；缺列就告诉我缺什么。不要让我复制 PowerShell、使用管理员权限或修改 DCOM/注册表；连接失败只简要报告卡在哪个阶段和下一步。"
