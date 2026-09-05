@@ -58,6 +58,7 @@
     ".github/workflows/star-trend.yml",
     ".github/workflows/tests.yml",
     ".gitignore",
+    "AGENTS.md",
     "ASSET_PROVENANCE.md",
     "AUTHORS.md",
     "CHANGELOG.md",
