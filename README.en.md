@@ -94,7 +94,7 @@ Open a new task afterwards and it is ready. **Remember to install Origin yoursel
 
 The rendering engine is not inside the Skill; it lives in `runtime/` in the complete repository. Some hosts install only the Skill subfolder, which leaves the engine behind.
 
-**Ask the agent to fetch it first.** The Skill instructs the agent to download the complete repository and run `setup` itself rather than handing that back to you, so “the engine is missing, fetch the complete repository and run setup” is usually enough.
+**The agent fetches it on its own.** The Skill instructs the agent to download the complete repository and run `setup` without asking you first and without handing the download back to you. It stops to ask only when your machine has no 64-bit Python 3.10–3.12 and one must be installed, which is a system-level change.
 
 To do it yourself, download the complete repository and run `setup` inside it:
 

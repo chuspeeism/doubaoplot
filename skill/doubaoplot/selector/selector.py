@@ -126,11 +126,9 @@ def main(argv: list[str] | None = None) -> int:
     _Handler.page_bytes = PAGE.read_bytes()
 
     server = None
-    port = None
     for candidate in PORTS:
         try:
             server = ThreadingHTTPServer(("127.0.0.1", candidate), _Handler)
-            port = candidate
             break
         except OSError:
             continue
@@ -145,7 +143,8 @@ def main(argv: list[str] | None = None) -> int:
             _open_in_browser(PAGE.as_uri())
         return 2
 
-    url = f"http://127.0.0.1:{port}/"
+    # 报实际绑上的端口，别报候选值
+    url = f"http://127.0.0.1:{server.server_address[1]}/"
     print(f"选择器地址：{url}", flush=True)
     print(f"页面文件：{PAGE}", flush=True)
     print("请在宿主的内置浏览器里打开上面这个地址，不要另外弹一个系统浏览器窗口。", flush=True)

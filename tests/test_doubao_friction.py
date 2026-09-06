@@ -120,6 +120,8 @@ def test_selector_serves_page_and_receives_pick():
 
 def test_selector_does_not_open_a_system_browser_by_default(monkeypatch, capsys):
     opened: list[str] = []
+    # 端口交给系统分配，别去抢 17864 那三个——真机上可能正被占着
+    monkeypatch.setattr(chart_selector, 'PORTS', [0])
     monkeypatch.setattr(chart_selector, '_open_in_browser', lambda target: opened.append(target) or True)
     chart_selector.main(['--timeout', '0.2'])
     assert opened == []
@@ -128,6 +130,7 @@ def test_selector_does_not_open_a_system_browser_by_default(monkeypatch, capsys)
 
 def test_selector_open_flag_opens_the_http_address(monkeypatch, capsys):
     opened: list[str] = []
+    monkeypatch.setattr(chart_selector, 'PORTS', [0])
     monkeypatch.setattr(chart_selector, '_open_in_browser', lambda target: opened.append(target) or True)
     chart_selector.main(['--timeout', '0.2', '--open'])
     capsys.readouterr()
