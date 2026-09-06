@@ -704,6 +704,23 @@ def _recover_install_swap(target: Path) -> str:
     return recovery
 
 
+class StagedSkillIdentityError(OSError):
+    """暂存出来的 Skill 没通过身份校验。是 OSError 的子类，好让原有清理逻辑照常生效。"""
+
+
+# 豆包工作版：SKILL.md 的 name 从 editaplot 改成了 doubaoplot，身份校验必须两个名字都认。
+# 只认 editaplot 的话，安装会在两个地方硬失败：暂存目录的身份检查通不过（报成"写不进去"），
+# 重装时已经装好的目录被判成"不是 EditaPlot"而拒绝覆盖。
+RECOGNIZED_SKILL_NAMES = ("doubaoplot", "editaplot")
+
+
+def _skill_manifest_declares_known_name(header: str) -> bool:
+    """SKILL.md 头部是否声明了本项目认识的 Skill 名（容忍 CRLF）。"""
+
+    haystack = f"\n{header}".replace("\r\n", "\n")
+    return any(f"\nname: {name}\n" in haystack for name in RECOGNIZED_SKILL_NAMES)
+
+
 def _is_recognized_editaplot_skill(path: Path) -> bool:
     skill_file = path / "SKILL.md"
     cli_file = path / "scripts" / "editaplot.py"
@@ -714,7 +731,7 @@ def _is_recognized_editaplot_skill(path: Path) -> bool:
         header = skill_file.read_text(encoding="utf-8")[:2048]
     except OSError:
         return False
-    if "\nname: editaplot\n" not in f"\n{header}":
+    if not _skill_manifest_declares_known_name(header):
         return False
     if bootstrap_file.is_file():
         return True
@@ -914,9 +931,13 @@ def install_skill(argv: list[str], *, _lock_held: bool = False) -> int:
                     "code": "skill_destination_not_editaplot",
                     "message": (
                         "Refusing to overwrite a non-empty directory that is not a recognized "
-                        "EditaPlot Skill. Choose an empty target."
+                        "EditaPlot/DoubaoPlot Skill. A recognized directory has SKILL.md "
+                        "declaring one of: " + ", ".join(RECOGNIZED_SKILL_NAMES) + ", plus "
+                        "scripts/editaplot.py. Choose an empty target, or point --target at "
+                        "the real Skill directory."
                     ),
                     "target": str(target),
+                    "recognized_skill_names": list(RECOGNIZED_SKILL_NAMES),
                 },
             },
             stream=sys.stderr,
@@ -987,7 +1008,7 @@ def install_skill(argv: list[str], *, _lock_held: bool = False) -> int:
                 encoding="utf-8",
             )
             if not _is_recognized_editaplot_skill(staging):
-                raise OSError("staged Skill failed its identity check")
+                raise StagedSkillIdentityError("staged Skill failed its identity check")
         except BaseException:
             if staging.exists() or staging.is_symlink():
                 _remove_install_sibling(target, staging, "build")
@@ -1158,6 +1179,26 @@ def _setup_filesystem_failure(
     requested_target, _argument_error = _parse_setup_target(argv)
     if requested_target is None:
         requested_target, _origin = resolve_skill_target()
+    if isinstance(error, StagedSkillIdentityError):
+        # 这不是权限问题。报成"写不进去"会把宿主 Agent 引到去开目录权限的岔路上。
+        _emit(
+            {
+                "ok": False,
+                "error": {
+                    "code": "staged_skill_identity_check_failed",
+                    "message": (
+                        "The staged Skill copy failed its identity check, so nothing was "
+                        "installed and the existing Skill was left untouched. SKILL.md must "
+                        "declare one of: " + ", ".join(RECOGNIZED_SKILL_NAMES) + ". This is "
+                        "not a permission problem; do not change folder permissions."
+                    ),
+                    "target": str(requested_target),
+                    "recognized_skill_names": list(RECOGNIZED_SKILL_NAMES),
+                },
+            },
+            stream=sys.stderr,
+        )
+        return 2
     permission_denied = isinstance(error, PermissionError)
     _emit(
         {

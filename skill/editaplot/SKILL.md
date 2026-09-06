@@ -23,20 +23,25 @@ rendering, exporting, and readback.
 
 用户不知道自己要什么图的时候，让他**看着选**，比让他**描述**准得多。
 
-1. 运行 `python selector/selector.py`。它会打开一个本地页面：45 张真机跑出来的 Origin 示例图铺开，
-   按方向分好类；用户点中一张，右侧会显示这张图**需要哪几列数据**，并自动拼好一段完整请求。
-   - 宿主自己有内置浏览器面板时，改用 `python selector/selector.py --print-path`，
-     拿到路径后用面板打开，不要另外弹窗口。
-2. 用户在页面上点「发送给豆包」，脚本会把拼好的请求收下来打到标准输出；
+1. 运行 `python selector/selector.py`。它**不会自己弹浏览器窗口**，只起一个监听本机的服务，
+   并打印一行 `选择器地址：http://127.0.0.1:<端口>/`。
+2. **把这个地址用你自己的内置浏览器打开。** 用户已经在豆包工作里了，另外弹一个 Chrome 窗口
+   是打断他，不要这么做，也不要把地址甩给用户让他自己去开外部浏览器。
+   - 只有当你确实没有任何打开网页的能力时，才改成 `python selector/selector.py --open`，
+     让脚本用系统默认浏览器打开，并明确告诉用户你为什么这么做。
+   - 页面就是这个服务发出来的，45 张真机跑出来的 Origin 示例图按方向分好类；
+     用户点中一张，右侧会显示这张图**需要哪几列数据**，并自动拼好一段完整请求。
+3. 用户在页面上点「发送给豆包」，脚本会把拼好的请求收下来打到标准输出；
    点「复制」的话内容在他剪贴板里，请他粘过来。**两条路都通，别只等一条。**
-3. 拿到这段请求后，**回到原有流程的第 6 步**继续（`start` → `understand` → 确认 → `plan` → 渲染 → 验证）。
+4. 拿到这段请求后，**回到原有流程的第 6 步**继续（`start` → `understand` → 确认 → `plan` → 渲染 → 验证）。
    选择器只负责把需求问清楚，它不改变任何绘图行为，也不跳过任何确认环节。
 
 **选择器给出的「需要哪几列」是提示，不是结论。** 用户的数据到底有没有这些列，仍然由第 7 步
 `understand` 逐列核对；缺列就照常告诉用户缺什么，不要因为他在页面上点过就默认数据齐了。
 
-如果 `selector.py` 起不来（端口全被占、没有图形界面），不要卡住：把页面路径给用户，
-让他自己双击打开、点「复制」再粘回来，流程照旧。
+如果 `selector.py` 起不来（`17864 / 17865 / 17866` 三个端口全被占），它会改打印
+`页面地址（本地文件）：file:///…`。不要卡住：用这个地址打开页面，或者把本地文件路径给用户
+让他自己双击打开，点「复制」再粘回来，流程照旧。
 
 ## Request only scoped Windows permissions
 
@@ -291,6 +296,7 @@ technical paths after the concise outcome.
 - `references/not-covered.md`（豆包工作版新增）：本 skill **没有**绘图路线的 17 种图表。
   用户点名要其中任何一种时，先看这份，直接说清楚，不要硬试。
 - `selector/selector.py`（豆包工作版新增）：图表选择器。用户说不清要画什么图时用它。
+  它把页面挂在 `http://127.0.0.1:<端口>/` 上，默认不弹系统浏览器——地址交给宿主的内置浏览器打开。
 - `references/data-contracts.md`: accepted layouts, column semantics, and repair guidance.
 - `references/semantic-understanding.md`: per-column use, element checklist, derived-data lineage,
   and the hash-bound confirmation gate.

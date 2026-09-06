@@ -54,3 +54,31 @@ Additional modifications (DoubaoPlot, 2026-09-05):
      Skill-only installation, exact mapping roles, palette filtering, and PNG
      presentation instead of attempting to foreground Origin. Regression coverage
      is added in tests/test_doubao_friction.py; the runtime manifest is rebuilt.
+
+Additional modifications (DoubaoPlot, 2026-09-06):
+  7. README.md and README.en.md are rewritten as DoubaoPlot's own documents. They
+     describe this derivative directly for a first-time reader instead of carrying the
+     upstream README with a note prepended, and they no longer refer readers to
+     upstream-voiced documents inside this repository. Upstream attribution is kept and
+     expanded into a dedicated section that names hang-jin and EditaPlot, states that
+     the plotting capability is upstream's, retains the aggregate Star badge and Star
+     trend chart, and asks readers to star the upstream repository. The 17 uncovered
+     chart types are inlined. Upstream's coverage table, gallery images, palette image,
+     permission scope, privacy statements, and scientific boundaries are retained.
+  8. The optional WeChat tip section is removed from both READMEs, because the payment
+     code belongs to the upstream author and this derivative does not solicit or handle
+     payments on their behalf. The asset file assets/support/wechat-tip.png is kept
+     tracked and unchanged. tests/test_public_release_gate.py replaces
+     test_public_readmes_end_with_optional_support_section with
+     test_public_readmes_credit_upstream_and_drop_the_tip_section, which asserts the tip
+     section is absent from both READMEs and that both credit the upstream repository.
+  9. skill/editaplot/scripts/bootstrap_editaplot.py accepts the DoubaoPlot Skill name in
+     its install-time identity check. That check previously recognized only the upstream
+     name, so every DoubaoPlot installation was rejected; the upstream name is still
+     accepted so existing installations upgrade in place. A failed identity check is now
+     reported as such instead of as a write-permission failure.
+ 10. skill/editaplot/selector/selector.py serves the selector page from its existing
+     loopback HTTP server and no longer launches a system browser unless --open is given,
+     so the host's own browser opens the page. SKILL.md and the user-facing documents are
+     updated to match. Regression coverage is added in tests/test_doubao_friction.py.
+     Neither change alters plotting behaviour, data contracts, or verification gates.

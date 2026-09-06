@@ -101,21 +101,30 @@ def test_public_readmes_use_aggregate_star_badge_and_anonymous_trend() -> None:
         assert all(token not in content for token in forbidden)
 
 
-def test_public_readmes_end_with_optional_support_section() -> None:
+def test_public_readmes_credit_upstream_and_drop_the_tip_section() -> None:
+    """豆包工作版：赞赏码是上游作者收款，二次创作版不代收，整节删除。
+
+    上游的 test_public_readmes_end_with_optional_support_section 断言两份 README 以
+    赞赏节结尾。本版把它换成两条：赞赏码在 README 里不再出现；署名改为把读者引向
+    上游仓库点 Star。仓库仍保留 assets/support/wechat-tip.png 文件本体，因为它在
+    发布策略的必须文件清单与资产溯源清单里，删文件属于另一件事。
+    """
+
     chinese = (PRODUCT_ROOT / "README.md").read_text(encoding="utf-8")
     english = (PRODUCT_ROOT / "README.en.md").read_text(encoding="utf-8")
     asset = "assets/support/wechat-tip.png"
 
-    assert chinese.rfind("## 请我喝杯咖啡 ☕") > chinese.rfind("## 开源、贡献与支持")
-    assert "一毛、两毛或几块钱" in chinese
-    assert "赞赏完全自愿" in chinese
-    assert "不会解锁任何额外功能" in chinese
-    assert asset in chinese
+    for content in (chinese, english):
+        assert asset not in content
+    for token in ("请我喝杯咖啡", "赞赏", "一毛、两毛或几块钱"):
+        assert token not in chinese
+    for token in ("Buy me a coffee", "buy me a coffee", "Tips are entirely optional"):
+        assert token not in english
 
-    assert english.rfind("## Buy me a coffee ☕") > english.rfind("## Open source, contributing, and support")
-    assert "Tips are entirely optional" in english
-    assert "do not unlock features" in english
-    assert asset in english
+    assert (PRODUCT_ROOT / asset).is_file()
+
+    assert "去给 [hang-jin/editaplot](https://github.com/hang-jin/editaplot) 点一个 Star" in chinese
+    assert "go star [hang-jin/editaplot](https://github.com/hang-jin/editaplot)" in english
 
 
 def test_gallery_inventory_and_display_selection_are_separate() -> None:
