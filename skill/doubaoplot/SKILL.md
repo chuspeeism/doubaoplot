@@ -84,7 +84,12 @@ rendering, exporting, and readback.
    真实安装位置为（`%LOCALAPPDATA%` 即当前用户的 `AppData/Local`） `%LOCALAPPDATA%\Doubao\User Data\Default\.doubao\agent_mode\workspace\.user_skills\<skill名>`。
    找不到启动器时，不要继续全盘搜索；用 `python "<skill目录>\scripts\bootstrap_editaplot.py" <子命令>`
    作为等效入口，后续参数完全一致。已有完整 runtime 时可加 `--engine-home "<完整仓库>\runtime"`；
-   bootstrap 本身不包含 runtime，也不能凭空补齐它。缺 runtime 时先取得完整本项目仓库再 setup。
+   bootstrap 本身不包含 runtime，也不能凭空补齐它。**缺 runtime 时不要停在报错上，也不要让用户
+   自己去下载。** 先用中文说明这一步需要联网取本项目仓库、征得用户同意，然后你自己把完整仓库取
+   下来跑一次 setup：`git clone https://github.com/chuspeeism/doubaoplot.git`（不方便用 git 就下载
+   Source ZIP 并完整解压），进入仓库目录运行 `.\editaplot.cmd setup`，之后再用
+   `--engine-home "<完整仓库>\runtime"` 继续原来的命令。用户只说了一句安装口令时，补齐引擎这一步
+   由你完成，不要把它推回给用户。
    Locate `editaplot.cmd` in the installed Skill directory; when working from a cloned repository,
    use the repository-root `editaplot.cmd`. Use an absolute launcher path in commands. Do not make
    beginners select a Python executable or invoke `scripts/editaplot.py` directly.

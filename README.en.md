@@ -92,7 +92,11 @@ Open a new task afterwards and it is ready. **Remember to install Origin yoursel
 <details>
 <summary><b>If it reports that the rendering engine is missing (engine_not_found)</b></summary>
 
-The rendering engine is not inside the Skill; it lives in `runtime/` in the complete repository. Some hosts install only the Skill subfolder, which leaves the engine behind. Download the complete repository and run `setup` inside it:
+The rendering engine is not inside the Skill; it lives in `runtime/` in the complete repository. Some hosts install only the Skill subfolder, which leaves the engine behind.
+
+**Ask the agent to fetch it first.** The Skill instructs the agent to download the complete repository and run `setup` itself rather than handing that back to you, so “the engine is missing, fetch the complete repository and run setup” is usually enough.
+
+To do it yourself, download the complete repository and run `setup` inside it:
 
 ```powershell
 git clone https://github.com/chuspeeism/doubaoplot.git
@@ -134,7 +138,7 @@ Update to the latest version and install again. Every version before 2026-09-06 
 
 Neither is a permission problem. Do not change folder permissions and do not rerun as administrator; pull the latest code and run `setup` again.
 
-**Also, do not hand-copy files instead of running `setup`.** Copying `skill/doubaoplot` into a skills directory installs the Skill but not its project-local Python environment, and you only find out when the first render fails. The source folder in this repository is named `skill/doubaoplot` for historical reasons; the installed Skill is named `doubaoplot`.
+**Also, do not hand-copy files instead of running `setup`.** Copying `skill/doubaoplot` into a skills directory installs the Skill but neither the rendering engine nor its project-local Python environment, and you only find out when the first render fails.
 
 </details>
 

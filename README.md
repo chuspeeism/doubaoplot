@@ -94,7 +94,11 @@ Origin 本身画得出来，但这个 Skill 没有对应的绘图路线。你点
 <details>
 <summary><b>如果它说找不到绘图引擎（engine_not_found）</b></summary>
 
-绘图引擎不在 Skill 里，在完整仓库的 `runtime/` 目录下。有些宿主只会把 Skill 那个子目录装进来，拿不到引擎。这时候下载完整仓库，在里面跑一次 `setup`：
+绘图引擎不在 Skill 里，在完整仓库的 `runtime/` 目录下。有些宿主只会把 Skill 那个子目录装进来，拿不到引擎。
+
+**先让它自己去取。** Skill 里已经写明：缺引擎时由 Agent 联网把完整仓库拿下来跑 `setup`，不该把这一步推回给你。所以直接说一句「引擎没装上，你去把完整仓库取下来跑 setup」就行。
+
+要自己动手也可以，下载完整仓库，在里面跑一次 `setup`：
 
 ```powershell
 git clone https://github.com/chuspeeism/doubaoplot.git
@@ -136,7 +140,7 @@ $env:EDITAPLOT_SKILL_DIR = "<你的 Agent 的 skills 目录>\doubaoplot"
 
 看到这两种，不要去改文件夹权限，也不要用管理员权限重跑。拉最新代码再跑一次 `setup` 即可。
 
-**另外，别用手工复制代替 `setup`。** 把 `skill/doubaoplot` 直接拷进 skills 目录，Skill 是进去了，但项目专属的 Python 环境没建起来，要等第一次画图才发现。顺带一提：仓库里 Skill 的源目录叫 `skill/doubaoplot`（目录名是历史遗留），装进宿主之后的名字才是 `doubaoplot`。
+**另外，别用手工复制代替 `setup`。** 把 `skill/doubaoplot` 直接拷进 skills 目录，Skill 是进去了，但绘图引擎和项目专属的 Python 环境都没跟过来，要等第一次画图才发现。
 
 </details>
 
