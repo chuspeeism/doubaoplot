@@ -10,8 +10,8 @@
     },
     {
       "path": "NOTICE",
-      "size_bytes": 6140,
-      "sha256": "79211a6af592b5c84e4bd04c0ac1207bb4d1df2410e34c68e46a871b6e4d8333"
+      "size_bytes": 6719,
+      "sha256": "056102fdd6701e94a487c6f5591a26a0e5c99bb45f888515748084ca49b65f48"
     },
     {
       "path": "pyproject.toml",

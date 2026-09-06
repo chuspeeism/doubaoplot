@@ -135,3 +135,16 @@ def test_selector_open_flag_opens_the_http_address(monkeypatch, capsys):
     chart_selector.main(['--timeout', '0.2', '--open'])
     capsys.readouterr()
     assert opened and opened[0].startswith(('http://127.0.0.1:', 'file://'))
+
+
+def test_setup_does_not_leave_a_lock_file_behind(tmp_path, monkeypatch, capsys):
+    """装完（或装失败）都不该在宿主的 skills 目录里留下 .lock。上次实跑就留了一个。"""
+
+    monkeypatch.setattr(bootstrap, 'windows_host_compatibility', lambda: {'compatible': True})
+    monkeypatch.setattr(bootstrap, '_resolve_engine', lambda argv: (None, {}))
+    skills = tmp_path / 'skills'
+    returncode = bootstrap.install_skill(['--target', str(skills / 'doubaoplot')])
+    capsys.readouterr()
+
+    assert returncode == 3
+    assert list(skills.glob('*.lock')) == []

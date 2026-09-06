@@ -89,6 +89,8 @@ The palettes were designed and abstracted independently. They do not copy journa
 
 Open a new task afterwards and it is ready. **Remember to install Origin yourself.**
 
+**It tells you the plan before it starts.** Before the first render it walks through the four things this route needs — the Skill, the rendering engine, the ten dependency libraries, and a usable Python — and names the ones your machine already has so you can see them being skipped. It fills in the missing ones itself; only installing Python stops to ask you. You never have to guess what it is waiting on.
+
 <details>
 <summary><b>If it reports that the rendering engine is missing (engine_not_found)</b></summary>
 

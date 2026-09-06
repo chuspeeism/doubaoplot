@@ -88,3 +88,9 @@ Additional modifications (DoubaoPlot, 2026-09-06):
      tools, tests, the release policy, the asset provenance manifest, and the documentation
      are updated to the new path, and both directory names are still accepted so an existing
      clone or installation keeps working.
+ 12. skill/doubaoplot/scripts/bootstrap_editaplot.py removes its own setup lock file once the lock
+     is released, so a host skills directory is not left holding a stray hidden file; a lock still
+     held by another process is never removed. SKILL.md adds a Doubao-facing section that reports
+     the whole installation path to the user before any of it starts, names the steps that machine
+     already satisfies, and records the Windows PowerShell command rules a live run tripped over.
+     Neither change alters plotting behaviour, data contracts, or verification gates.

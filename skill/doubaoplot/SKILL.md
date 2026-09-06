@@ -9,6 +9,60 @@ Turn a scientific question and a read-only table into an auditable, editable Ori
 the beginner experience conversational; use the deterministic engine for inspection, planning,
 rendering, exporting, and readback.
 
+## 先把安装这件事讲清楚（豆包工作版新增）
+
+第一次为某台机器干活时，**先报账，再干活**。用户的挫败感几乎都来自"不知道要等什么、
+不知道还有几步"，而不是等待本身。
+
+先跑一次（这条命令不依赖引擎，缺引擎时也能跑）：
+
+```
+python "<skill目录>\scripts\bootstrap_editaplot.py" --diagnose
+```
+
+从输出里读四件事：
+
+| 字段 | 说明什么 |
+|---|---|
+| `host.compatible` | 是不是 64 位 Windows。`false` 就直接说清这条路走不了，不要再往下走 |
+| `engine_home` | 绘图引擎在不在。`null` = 还得把完整仓库取下来 |
+| `selected` | 有没有可用的 64 位 CPython 3.10–3.12。`null` = 需要装 Python |
+| `selected.source` | 等于 `managed_environment` 说明依赖库也已经就位 |
+
+然后用一段话把整条链路讲给用户，**已经具备的要点名说"跳过"**——那是他能感知到的"更快"，
+不要沉默略过：
+
+> 画图这条链路一共四件事：① 装 Skill（已完成）② 取绘图引擎 ③ 装 10 个依赖库
+> ④ 有一个能用的 Python。你这台机器上 ③ ④ 现成，直接跳过；只差 ②，我去取一下，
+> 大概一两分钟，装完常驻，以后画图不再等这一步。Origin 你已经装好了，我只调用它。
+
+规则：
+
+- **每一步开始前先说一句**，别让用户在等待里猜你在干什么。下载、解压、建环境都要报。
+- **报完就接着做，不要停下来等一句"好"。** 这是告知，不是请示。
+- 四件事里只有**装 Python** 需要先征得同意（系统级变更）；取仓库、装依赖属于已声明的用途，
+  直接做完再汇报。
+- 全部现成时也要说一句："都现成，直接开画。"
+
+### 在 Windows 上跑命令的硬规矩
+
+宿主是 Windows PowerShell，不是 bash。实跑记录里在这里连着栽过三次，逐条避开：
+
+- **不要用 POSIX 写法。** `ls`、`2>/dev/null`、`&&`、反引号、单引号包 Windows 路径都会报错。
+  列目录用 `Get-ChildItem`，忽略错误用 `-ErrorAction SilentlyContinue`，连续执行用 `;`。
+  路径统一用双引号包起来。
+- **不要假设机器上有 git。** 先 `git --version` 探一下；没有就直接下 ZIP，不要在 git 上反复重试：
+
+  ```powershell
+  Invoke-WebRequest -Uri "https://github.com/chuspeeism/doubaoplot/archive/refs/heads/main.zip" -OutFile "$env:TEMP\doubaoplot.zip"
+  Expand-Archive -Path "$env:TEMP\doubaoplot.zip" -DestinationPath "$env:USERPROFILE\doubaoplot" -Force
+  ```
+
+  解压出来的目录叫 `doubaoplot-main`，`setup` 要在那个目录里跑。
+- **不要用 GitHub API 去列仓库目录再挑文件。** 整包取下来最快，也不会漏东西。
+- **下载和解压本来就慢**（整包十几 MB、上千个文件）。命令超时不等于失败：先告诉用户这一步要等，
+  用更长的超时或后台方式跑，跑完确认目录里有 `runtime\` 和 `editaplot.cmd` 再继续。
+
 ## 先决定走哪条路（豆包工作版新增）
 
 用户一进来，先看他手上有什么，再决定怎么走。**不要在用户没给方向的时候就开始猜图型。**

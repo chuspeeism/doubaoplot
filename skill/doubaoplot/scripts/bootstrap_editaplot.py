@@ -17,7 +17,7 @@ import shutil
 import subprocess
 import sys
 from collections.abc import Iterator
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from pathlib import Path
 from typing import Any, BinaryIO
 
@@ -877,9 +877,11 @@ def install_skill(argv: list[str], *, _lock_held: bool = False) -> int:
     target.parent.mkdir(parents=True, exist_ok=True)
     if not _lock_held:
         lock_path = target.parent / f".{target.name}.editaplot-setup.lock"
+        held_by_us = False
         try:
             with _exclusive_file_lock(lock_path, error_code="skill_setup_in_progress"):
-                return install_skill(["--target", str(target)], _lock_held=True)
+                held_by_us = True
+                exit_code = install_skill(["--target", str(target)], _lock_held=True)
         except RuntimeError as exc:
             _emit(
                 {
@@ -893,6 +895,13 @@ def install_skill(argv: list[str], *, _lock_held: bool = False) -> int:
                 stream=sys.stderr,
             )
             return 4
+        finally:
+            # 锁文件用完就收掉，别在宿主的 skills 目录里留一个看不懂的隐藏文件。成功失败都收。
+            # 锁没拿到时不能动它——那是别人的锁。Windows 上别的进程还开着它时删除会失败，忽略即可。
+            if held_by_us:
+                with suppress(OSError):
+                    lock_path.unlink(missing_ok=True)
+        return exit_code
     _recover_install_swap(target)
     source_root = SKILL_ROOT.resolve()
     same_as_source = target == source_root

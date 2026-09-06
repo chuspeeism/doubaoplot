@@ -62,7 +62,7 @@ Apache-2.0 第 4(b) 条在三份 `NOTICE` 里追加声明（`NOTICE`、`runtime/
 # 1. 改了 runtime/ 下任何文件，重建清单，否则门禁和测试都会红
 python tools/build_runtime_manifest.py --runtime runtime
 
-# 2. 测试。macOS 上的基线是 22 failed / 898 passed / 7 skipped
+# 2. 测试。macOS 上的基线是 22 failed / 7 skipped（passed 数随新增测试变化，不用对齐）
 #    那 22 个失败全在 tests/test_editaplot.py，是 Windows 路径与 Origin 注册表相关，
 #    在 macOS 上本来就失败。**只要不超过 22 个就是没弄坏东西。**
 python -m pytest -p no:cacheprovider -q
