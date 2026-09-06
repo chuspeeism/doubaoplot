@@ -133,6 +133,21 @@ $env:EDITAPLOT_SKILL_DIR = "<你的 Agent 的 skills 目录>\doubaoplot"
 </details>
 
 <details>
+<summary><b>如果装依赖库特别慢，或者报 dependency_install_timeout</b></summary>
+
+那 10 个依赖库要下大约 45 MB，是整个安装里最花时间的一步（取仓库才 7.7 MB）。默认从官方 PyPI 下载，国内直连常见几十到几百 KB/s，容易拖到超时（这一步的上限是 900 秒）。
+
+**它会自己换成国内镜像重试**，用清华 TUNA，连不上再换阿里云，换完会告诉你换了哪个。你也可以先手动设好再让它装：
+
+```powershell
+$env:PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple"
+```
+
+换源换的只是"从哪儿下载"，装的仍然是锁文件里钉死的那些版本，一个都不会变。
+
+</details>
+
+<details>
 <summary><b>如果安装报错，提到 editaplot，或者说「写不进去」</b></summary>
 
 先更新到最新版再装。2026-09-06 之前的版本有一个必现的坑：安装脚本在把 Skill 落盘前会做一次身份校验，而那段校验只认上游的名字 `editaplot`，本项目的 SKILL.md 写的是 `doubaoplot` —— 于是**每一次安装都会失败**。失败信息有两种样子，哪一种都不是你的目录权限有问题：

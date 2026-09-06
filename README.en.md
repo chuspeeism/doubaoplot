@@ -131,6 +131,21 @@ $env:EDITAPLOT_SKILL_DIR = "<your agent's skills directory>\doubaoplot"
 </details>
 
 <details>
+<summary><b>If the dependency install is very slow, or reports dependency_install_timeout</b></summary>
+
+The ten dependency libraries are about 45 MB, the slowest step of the whole install (fetching the repository is only 7.7 MB). They come from PyPI by default, which is slow from mainland China and can hit the 900-second cap on that step.
+
+**The agent retries through a Chinese mirror on its own** — Tsinghua TUNA first, Aliyun if that fails — and tells you which one it used. You can also set it yourself before installing:
+
+```powershell
+$env:PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple"
+```
+
+A mirror only changes where the files come from; the versions installed are still the ones pinned in the lock file.
+
+</details>
+
+<details>
 <summary><b>If installation fails, mentions editaplot, or claims it cannot write</b></summary>
 
 Update to the latest version and install again. Every version before 2026-09-06 fails deterministically: before writing the Skill out, the installer runs an identity check that recognized only the upstream name `editaplot`, while this project's SKILL.md declares `doubaoplot`.

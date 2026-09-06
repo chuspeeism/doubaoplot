@@ -44,6 +44,32 @@ python "<skill目录>\scripts\bootstrap_editaplot.py" --diagnose
   直接做完再汇报。
 - 全部现成时也要说一句："都现成，直接开画。"
 
+### 依赖装得慢就换国内镜像（中国大陆网络）
+
+装那 10 个依赖库要下大约 45 MB（numpy 15.5、pandas 11、matplotlib 8.2、Pillow 7.2 是大头），
+这是整个安装里最花时间的一步 —— 相比之下取仓库才 7.7 MB。安装脚本给这一步的上限是
+**900 秒**，超了直接报 `dependency_install_timeout`。国内直连 PyPI 常见几十到几百 KB/s，
+很容易撞上这个上限。
+
+**这一步明显卡住（两三分钟没进展），或者已经报过 `dependency_install_timeout`，就换国内镜像
+重跑一次。** 在启动 `setup` / `repair-environment` 的那条命令之前设好环境变量即可，它会一路
+传到底层的 pip：
+
+```powershell
+$env:PIP_INDEX_URL = "https://pypi.tuna.tsinghua.edu.cn/simple"
+```
+
+清华源连不上就换阿里云：`https://mirrors.aliyun.com/pypi/simple/`。
+
+规矩：
+
+- **只许用这两个源**（清华 TUNA、阿里云），它们是 PyPI 的官方镜像。**不要自己去找别的"更快的
+  源"**，也不要用 `--trusted-host` 关掉证书校验。
+- **默认仍然走官方 PyPI。** 只有慢到影响使用、或者已经超时了才换，不要一上来就换。
+- 换了要**告诉用户换成了哪个源、为什么换**，一句话说清，不用停下来等他同意。
+- 换源换的只是"从哪儿下载"，装的仍然是 `requirements-runtime.lock` 里钉死的那些版本，
+  版本一个都不会变。
+
 ### 在 Windows 上跑命令的硬规矩
 
 宿主是 Windows PowerShell，不是 bash。实跑记录里在这里连着栽过三次，逐条避开：

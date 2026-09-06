@@ -148,3 +148,14 @@ def test_setup_does_not_leave_a_lock_file_behind(tmp_path, monkeypatch, capsys):
 
     assert returncode == 3
     assert list(skills.glob('*.lock')) == []
+
+
+def test_skill_pins_the_two_allowed_pypi_mirrors():
+    """换源只许换这两个官方镜像，默认仍走 PyPI —— 别让 Agent 自己去挑一个"更快的源"。"""
+
+    text = (SKILL_ROOT / 'SKILL.md').read_text(encoding='utf-8')
+    assert 'https://pypi.tuna.tsinghua.edu.cn/simple' in text
+    assert 'https://mirrors.aliyun.com/pypi/simple/' in text
+    assert '只许用这两个源' in text
+    assert '默认仍然走官方 PyPI' in text
+    assert 'requirements-runtime.lock' in text

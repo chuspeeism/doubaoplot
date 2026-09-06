@@ -94,3 +94,9 @@ Additional modifications (DoubaoPlot, 2026-09-06):
      the whole installation path to the user before any of it starts, names the steps that machine
      already satisfies, and records the Windows PowerShell command rules a live run tripped over.
      Neither change alters plotting behaviour, data contracts, or verification gates.
+\n 13. SKILL.md records what to do when the audited dependency install is slow or hits its
+     900-second cap on a mainland-China network: retry through one of two named official PyPI
+     mirrors (Tsinghua TUNA, Aliyun) by exporting PIP_INDEX_URL before setup, never a
+     self-chosen index and never with certificate checking disabled, keeping the official index
+     as the default. The pinned versions in requirements-runtime.lock, the resolution, and every
+     code path are unchanged.
