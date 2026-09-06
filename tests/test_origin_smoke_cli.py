@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = PRODUCT_ROOT / "skill" / "editaplot" / "scripts"
+SCRIPTS = PRODUCT_ROOT / "skill" / "doubaoplot" / "scripts"
 RUNTIME = PRODUCT_ROOT / "runtime"
 RUNTIME_SRC = RUNTIME / "src"
 for candidate in (SCRIPTS, RUNTIME_SRC):

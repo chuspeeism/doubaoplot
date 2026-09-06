@@ -10,8 +10,8 @@ from types import SimpleNamespace
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'skill/editaplot/scripts'))
-sys.path.insert(0, str(ROOT / 'skill/editaplot/selector'))
+sys.path.insert(0, str(ROOT / 'skill/doubaoplot/scripts'))
+sys.path.insert(0, str(ROOT / 'skill/doubaoplot/selector'))
 sys.path.insert(0, str(ROOT / 'runtime/src'))
 import bootstrap_editaplot as bootstrap
 import editaplot
@@ -19,7 +19,7 @@ import editaplot_core as core
 import selector as chart_selector
 from origin_sciplot.scientific_workflow import apply_scientific_palette_override, ScientificWorkflowError
 
-SKILL_ROOT = ROOT / 'skill/editaplot'
+SKILL_ROOT = ROOT / 'skill/doubaoplot'
 
 
 def test_real_doubao_skill_root(monkeypatch, tmp_path):

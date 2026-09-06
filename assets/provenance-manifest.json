@@ -2336,7 +2336,7 @@
       "contains_phi": false
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/amber_lavender.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/amber_lavender.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 55442,
       "sha256": "95296587dc17ddc7a973842ce6036703449e0bdf8b2d4cbf8058e8eb4ff806e7",
@@ -2345,7 +2345,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/blue_coral.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/blue_coral.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 55700,
       "sha256": "911621761ed6e1a3ed52ffee5ee810d35eb5e4cf593bf593dbb51d411873ab06",
@@ -2354,7 +2354,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/deep_sea_gold.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/deep_sea_gold.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 54927,
       "sha256": "489c13a9ca71d5e8918c4c1e03a5a7911e6b47d1dd2aca4775072e3c9e4d8d61",
@@ -2363,7 +2363,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/forest_amber.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/forest_amber.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 54831,
       "sha256": "7550dc4d8b5df5057f22a47c6cdfd42e47fa3a50fa70d232def843d165447c4b",
@@ -2372,7 +2372,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/navy_cyan_gold.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/navy_cyan_gold.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 53094,
       "sha256": "2ac254538e191b91ff201f6a1e92bd6f596b733166e3834767fbe5df79e339c5",
@@ -2381,7 +2381,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/navy_ember.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/navy_ember.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 55579,
       "sha256": "d71c1284a5a23f42f09270cf1f2cf0803914ce6a50c20f5525ab44a4c36818d7",
@@ -2390,7 +2390,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/ocean_coral.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/ocean_coral.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 56220,
       "sha256": "e21d770c0e52682d340d78b6c33773358c939dfa7b6519ff0ad80459e9c1247f",
@@ -2399,7 +2399,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/plum_rose.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/plum_rose.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 56933,
       "sha256": "fe4b35993d43c9edd61fa91ba215938bd4ceccbc6b6bbd6c6800173f8a5c412b",
@@ -2408,7 +2408,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/sky_terra.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/sky_terra.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 53238,
       "sha256": "846d39b1eedabb6d932b497bfdcdc2d61ce7846aa429940b42f4c41b8afb370f",
@@ -2417,7 +2417,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/cards/violet_lime.png",
+      "path": "skill/doubaoplot/assets/palettes/cards/violet_lime.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 53055,
       "sha256": "b43973e97dba0de4bf3bc634f9f31c0ad4881a3bd74a46d7bce5c107ac57a8a1",
@@ -2426,7 +2426,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/palette-selector-all.zh-CN.png",
+      "path": "skill/doubaoplot/assets/palettes/palette-selector-all.zh-CN.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 469526,
       "sha256": "374bf9a31ffae16c0c678cdde4229e663ad481050304af039338baf4a00a2c04",
@@ -2435,7 +2435,7 @@
       "png_text": {}
     },
     {
-      "path": "skill/editaplot/assets/palettes/palette-selector-public.zh-CN.png",
+      "path": "skill/doubaoplot/assets/palettes/palette-selector-public.zh-CN.png",
       "kind": "generated_original_palette_asset",
       "size_bytes": 387630,
       "sha256": "e4d069f3c3ceb2692d4de37a591863c8744b32bb7081432a63a28628d9264ea4",

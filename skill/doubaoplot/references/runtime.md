@@ -90,7 +90,7 @@ use an untrusted mirror. This permission applies only to Python; never install o
 
 ## Installation and diagnostics
 
-Run setup from a **complete repository**, never from a copied `skill/editaplot` folder:
+Run setup from a **complete repository**, never from a copied `skill/doubaoplot` folder:
 
 ```powershell
 .\editaplot.cmd setup

@@ -17,7 +17,7 @@ import pytest
 import yaml
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-SKILL_ROOT = PRODUCT_ROOT / "skill" / "editaplot"
+SKILL_ROOT = PRODUCT_ROOT / "skill" / "doubaoplot"
 SCRIPTS = SKILL_ROOT / "scripts"
 RUNTIME = PRODUCT_ROOT / "runtime"
 ENGINE = Path(os.environ.get("EDITAPLOT_TEST_ENGINE_HOME", RUNTIME)).resolve()
@@ -2363,7 +2363,7 @@ def test_public_asset_provenance_is_complete_and_synthetic() -> None:
             PRODUCT_ROOT / "assets" / "gallery",
             PRODUCT_ROOT / "assets" / "palettes",
             PRODUCT_ROOT / "assets" / "support",
-            PRODUCT_ROOT / "skill" / "editaplot" / "assets" / "palettes",
+            PRODUCT_ROOT / "skill" / "doubaoplot" / "assets" / "palettes",
         )
         for path in root.rglob("*")
         if path.is_file() and path.suffix.lower() in {".csv", ".png"}

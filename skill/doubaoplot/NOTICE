@@ -42,15 +42,15 @@ by these changes. This distribution is not endorsed by, affiliated with, or
 supported by the upstream EditaPlot author.
 
 Additional modifications (DoubaoPlot, 2026-09-05):
-  4. skill/editaplot/scripts/bootstrap_editaplot.py detects Doubao's Windows
+  4. skill/doubaoplot/scripts/bootstrap_editaplot.py detects Doubao's Windows
      LOCALAPPDATA workspace/.user_skills directory and explains the bootstrap
      entry point when runtime discovery fails.
-  5. skill/editaplot/scripts/editaplot.py and editaplot_core.py add template-aware
+  5. skill/doubaoplot/scripts/editaplot.py and editaplot_core.py add template-aware
      palette discovery and actionable mapping-role errors. The shared palette
      mode lookup and incompatible-palette message in
      runtime/src/origin_sciplot/scientific_workflow.py are updated without changing
      rendering behaviour or accepted palette modes.
-  6. skill/editaplot/SKILL.md and references/semantic-understanding.md document
+  6. skill/doubaoplot/SKILL.md and references/semantic-understanding.md document
      Skill-only installation, exact mapping roles, palette filtering, and PNG
      presentation instead of attempting to foreground Origin. Regression coverage
      is added in tests/test_doubao_friction.py; the runtime manifest is rebuilt.
@@ -72,13 +72,19 @@ Additional modifications (DoubaoPlot, 2026-09-06):
      test_public_readmes_end_with_optional_support_section with
      test_public_readmes_credit_upstream_and_drop_the_tip_section, which asserts the tip
      section is absent from both READMEs and that both credit the upstream repository.
-  9. skill/editaplot/scripts/bootstrap_editaplot.py accepts the DoubaoPlot Skill name in
+  9. skill/doubaoplot/scripts/bootstrap_editaplot.py accepts the DoubaoPlot Skill name in
      its install-time identity check. That check previously recognized only the upstream
      name, so every DoubaoPlot installation was rejected; the upstream name is still
      accepted so existing installations upgrade in place. A failed identity check is now
      reported as such instead of as a write-permission failure.
- 10. skill/editaplot/selector/selector.py serves the selector page from its existing
+ 10. skill/doubaoplot/selector/selector.py serves the selector page from its existing
      loopback HTTP server and no longer launches a system browser unless --open is given,
      so the host's own browser opens the page. SKILL.md and the user-facing documents are
      updated to match. Regression coverage is added in tests/test_doubao_friction.py.
      Neither change alters plotting behaviour, data contracts, or verification gates.
+ 11. The Skill source directory is renamed from skill/editaplot to skill/doubaoplot, so the
+     repository layout matches the Skill name this derivative declares and installs. File
+     names inside that directory are unchanged. The launcher, the repository-root probe,
+     tools, tests, the release policy, the asset provenance manifest, and the documentation
+     are updated to the new path, and both directory names are still accepted so an existing
+     clone or installation keeps working.

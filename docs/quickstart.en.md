@@ -21,7 +21,7 @@ Download the **complete repository** and run this from its root:
 .\editaplot.cmd setup
 ```
 
-Do not copy only `skill/editaplot`; it does not contain the rendering runtime. Git users can clone
+Do not copy only `skill/doubaoplot`; it does not contain the rendering runtime. Git users can clone
 the repository. Everyone else can download the Source ZIP without a GitHub account and extract it
 in full. See the [installation guide](installation.md).
 

@@ -8,7 +8,7 @@ from typing import Any
 import pytest
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = PRODUCT_ROOT / "skill" / "editaplot" / "scripts"
+SCRIPTS = PRODUCT_ROOT / "skill" / "doubaoplot" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 import editaplot_core as core  # noqa: E402, I001

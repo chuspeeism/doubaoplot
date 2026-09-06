@@ -80,7 +80,7 @@ rendering, exporting, and readback.
    pass. State plainly that macOS (Intel/Apple Silicon), Linux, WSL,
    Wine/CrossOver, Parallels, and other VMs are unsupported in V1. `doctor` cannot reliably detect
    every VM, so ask the user to confirm a physical Windows host when that fact is unknown.
-2. 豆包可能只安装 `skill/editaplot/` 子目录，里面没有 `editaplot.cmd` 或 `runtime/`。
+2. 豆包可能只安装 `skill/doubaoplot/` 子目录，里面没有 `editaplot.cmd` 或 `runtime/`。
    真实安装位置为（`%LOCALAPPDATA%` 即当前用户的 `AppData/Local`） `%LOCALAPPDATA%\Doubao\User Data\Default\.doubao\agent_mode\workspace\.user_skills\<skill名>`。
    找不到启动器时，不要继续全盘搜索；用 `python "<skill目录>\scripts\bootstrap_editaplot.py" <子命令>`
    作为等效入口，后续参数完全一致。已有完整 runtime 时可加 `--engine-home "<完整仓库>\runtime"`；
@@ -89,7 +89,7 @@ rendering, exporting, and readback.
    use the repository-root `editaplot.cmd`. Use an absolute launcher path in commands. Do not make
    beginners select a Python executable or invoke `scripts/editaplot.py` directly.
 3. Require the complete repository for first installation. Run repository-root
-   `editaplot.cmd setup`; never instruct users to copy only `skill/editaplot`, because that omits
+   `editaplot.cmd setup`; never instruct users to copy only `skill/doubaoplot`, because that omits
    the runtime. Read `references/runtime.md` for setup, discovery, and command details.
 4. Reuse an existing compatible Python. If none exists, explain in Chinese that installing Python
    is a system-level change. Run `winget show` first and explain the exact publisher, source, and

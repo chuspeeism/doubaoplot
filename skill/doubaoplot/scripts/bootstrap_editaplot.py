@@ -165,8 +165,12 @@ def _exclusive_file_lock(path: Path, *, error_code: str) -> Iterator[None]:
 
 def _repository_root() -> Path | None:
     candidate = SCRIPT_DIRECTORY.parents[2] if len(SCRIPT_DIRECTORY.parents) >= 3 else None
-    if candidate is not None and (candidate / "skill" / "editaplot" / "scripts").is_dir():
-        return candidate
+    if candidate is None:
+        return None
+    # 目录名从 editaplot 改成了 doubaoplot；老克隆还是旧名字，两个都认
+    for name in RECOGNIZED_SKILL_NAMES:
+        if (candidate / "skill" / name / "scripts").is_dir():
+            return candidate
     return None
 
 

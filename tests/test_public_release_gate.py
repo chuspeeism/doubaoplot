@@ -192,15 +192,15 @@ def test_public_guidance_has_no_legacy_origin_status_gate() -> None:
             "docs/release-boundaries.md",
             "docs/gallery.md",
             "docs/gallery.en.md",
-            "skill/editaplot/SKILL.md",
-            "skill/editaplot/agents/openai.yaml",
-            "skill/editaplot/references/runtime.md",
-            "skill/editaplot/references/origin-safety.md",
+            "skill/doubaoplot/SKILL.md",
+            "skill/doubaoplot/agents/openai.yaml",
+            "skill/doubaoplot/references/runtime.md",
+            "skill/doubaoplot/references/origin-safety.md",
             "tools/build_showcase.py",
             "tools/sync_public_gallery.py",
         )
     ]
-    fixed_paths.extend((PRODUCT_ROOT / "skill" / "editaplot" / "scripts").glob("*.py"))
+    fixed_paths.extend((PRODUCT_ROOT / "skill" / "doubaoplot" / "scripts").glob("*.py"))
     forbidden = (
         "--confirm-origin-started",
         "requires_manual_origin_start_confirmation",

@@ -294,7 +294,7 @@ class ReleaseAudit:
                         str(notice_spec["path"]),
                     )
 
-        for copy_relative in ("runtime/LICENSE", "skill/editaplot/LICENSE"):
+        for copy_relative in ("runtime/LICENSE", "skill/doubaoplot/LICENSE"):
             copy_path = self.root / copy_relative
             if (
                 license_path.is_file()
@@ -304,7 +304,7 @@ class ReleaseAudit:
                 self.fail(
                     "license_copy_mismatch", "Bundled LICENSE copy differs from root LICENSE.", copy_relative
                 )
-        for copy_relative in ("runtime/NOTICE", "skill/editaplot/NOTICE"):
+        for copy_relative in ("runtime/NOTICE", "skill/doubaoplot/NOTICE"):
             copy_path = self.root / copy_relative
             if (
                 notice_path.is_file()
@@ -869,7 +869,7 @@ def _relative_hashes(directory: Path) -> dict[str, str]:
 def _expected_asset_kind(relative: str) -> str | None:
     if relative.startswith("assets/gallery/"):
         return "verified_origin_export_from_synthetic_fixture"
-    if relative.startswith("assets/palettes/") or relative.startswith("skill/editaplot/assets/palettes/"):
+    if relative.startswith("assets/palettes/") or relative.startswith("skill/doubaoplot/assets/palettes/"):
         return "generated_original_palette_asset"
     if relative == "assets/support/wechat-tip.png":
         return "author_provided_support_payment_qr"

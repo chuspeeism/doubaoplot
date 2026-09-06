@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
-RUNTIME_REFERENCE = PRODUCT_ROOT / "skill" / "editaplot" / "references" / "runtime.md"
+RUNTIME_REFERENCE = PRODUCT_ROOT / "skill" / "doubaoplot" / "references" / "runtime.md"
 INSTALLATION_GUIDE = PRODUCT_ROOT / "docs" / "installation.md"
 
 

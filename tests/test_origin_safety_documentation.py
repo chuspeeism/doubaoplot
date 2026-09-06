@@ -6,7 +6,7 @@ PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 ORIGIN_SAFETY = (
     PRODUCT_ROOT
     / "skill"
-    / "editaplot"
+    / "doubaoplot"
     / "references"
     / "origin-safety.md"
 )
@@ -125,8 +125,8 @@ def test_beginner_docs_define_scoped_codex_permissions_without_admin_recovery() 
         PRODUCT_ROOT / "docs" / "quickstart.en.md",
         PRODUCT_ROOT / "SUPPORT.md",
         PRODUCT_ROOT / "SECURITY.md",
-        PRODUCT_ROOT / "skill" / "editaplot" / "SKILL.md",
-        PRODUCT_ROOT / "skill" / "editaplot" / "references" / "runtime.md",
+        PRODUCT_ROOT / "skill" / "doubaoplot" / "SKILL.md",
+        PRODUCT_ROOT / "skill" / "doubaoplot" / "references" / "runtime.md",
     )
 
     for path in documents:
@@ -150,7 +150,7 @@ def test_beginner_docs_define_scoped_codex_permissions_without_admin_recovery() 
 def test_privacy_guidance_separates_local_runtime_from_codex_host_policy() -> None:
     privacy = (PRODUCT_ROOT / "PRIVACY.md").read_text(encoding="utf-8").casefold()
     skill = (
-        PRODUCT_ROOT / "skill" / "editaplot" / "SKILL.md"
+        PRODUCT_ROOT / "skill" / "doubaoplot" / "SKILL.md"
     ).read_text(encoding="utf-8").casefold()
     readme = (PRODUCT_ROOT / "README.md").read_text(encoding="utf-8")
 
@@ -164,10 +164,10 @@ def test_privacy_guidance_separates_local_runtime_from_codex_host_policy() -> No
 
 
 def test_origin_docs_freeze_codex_handoff_queue_and_redacted_diagnostics() -> None:
-    skill = (PRODUCT_ROOT / "skill" / "editaplot" / "SKILL.md").read_text(
+    skill = (PRODUCT_ROOT / "skill" / "doubaoplot" / "SKILL.md").read_text(
         encoding="utf-8"
     )
-    runtime = (PRODUCT_ROOT / "skill" / "editaplot" / "references" / "runtime.md").read_text(
+    runtime = (PRODUCT_ROOT / "skill" / "doubaoplot" / "references" / "runtime.md").read_text(
         encoding="utf-8"
     )
     safety = _content()

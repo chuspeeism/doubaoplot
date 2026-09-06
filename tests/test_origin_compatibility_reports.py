@@ -15,7 +15,7 @@ from origin_sciplot.workers.run_template_worker import (  # noqa: E402
     _record_template_compatibility,
 )
 
-SCRIPTS = Path(__file__).resolve().parents[1] / "skill" / "editaplot" / "scripts"
+SCRIPTS = Path(__file__).resolve().parents[1] / "skill" / "doubaoplot" / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.insert(0, str(SCRIPTS))
 

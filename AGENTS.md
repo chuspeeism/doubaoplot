@@ -21,7 +21,7 @@
 
 下面这些是 hang-jin 写的。**可以改**，但改之前先想清楚是不是必须改，改完必须按
 Apache-2.0 第 4(b) 条在三份 `NOTICE` 里追加声明（`NOTICE`、`runtime/NOTICE`、
-`skill/editaplot/NOTICE`，三份内容必须完全一致）。
+`skill/doubaoplot/NOTICE`，三份内容必须完全一致）。
 
 | 路径 | 内容 |
 |---|---|
@@ -37,10 +37,10 @@ Apache-2.0 第 4(b) 条在三份 `NOTICE` 里追加声明（`NOTICE`、`runtime/
 
 | 路径 | 内容 |
 |---|---|
-| `skill/editaplot/selector/` | 图表选择器：`chart-selector.html`（单文件，1.17 MB，45 张缩略图内嵌）+ `selector.py`（启动器与本地回传服务） |
-| `skill/editaplot/references/not-covered.md` | 17 种没有绘图路线的图表清单 |
-| `skill/editaplot/SKILL.md` 的「先决定走哪条路」章节 | 两种用法的入口路由 |
-| `skill/editaplot/scripts/bootstrap_editaplot.py` 的 `resolve_skill_target()` 与 `SKILL_DIRECTORY_NAME` | 安装目录三级解析 |
+| `skill/doubaoplot/selector/` | 图表选择器：`chart-selector.html`（单文件，1.17 MB，45 张缩略图内嵌）+ `selector.py`（启动器与本地回传服务） |
+| `skill/doubaoplot/references/not-covered.md` | 17 种没有绘图路线的图表清单 |
+| `skill/doubaoplot/SKILL.md` 的「先决定走哪条路」章节 | 两种用法的入口路由 |
+| `skill/doubaoplot/scripts/bootstrap_editaplot.py` 的 `resolve_skill_target()` 与 `SKILL_DIRECTORY_NAME` | 安装目录三级解析 |
 | `README.md` 顶部声明与「开始使用」整章、`README.en.md` 顶部、`豆包工作使用说明.md` | 面向用户的文档 |
 | `release/public-release-policy.json` 的 `max_file_bytes`、`max_total_bytes`、`secret_scan_exempt` | 发布策略的三处调整 |
 | `tools/verify_public_release.py` 的 `secret_scan_exempt` 支持 | 按文件豁免密钥扫描 |
@@ -62,7 +62,7 @@ Apache-2.0 第 4(b) 条在三份 `NOTICE` 里追加声明（`NOTICE`、`runtime/
 # 1. 改了 runtime/ 下任何文件，重建清单，否则门禁和测试都会红
 python tools/build_runtime_manifest.py --runtime runtime
 
-# 2. 测试。macOS 上的基线是 22 failed / 884 passed / 7 skipped
+# 2. 测试。macOS 上的基线是 22 failed / 898 passed / 7 skipped
 #    那 22 个失败全在 tests/test_editaplot.py，是 Windows 路径与 Origin 注册表相关，
 #    在 macOS 上本来就失败。**只要不超过 22 个就是没弄坏东西。**
 python -m pytest -p no:cacheprovider -q

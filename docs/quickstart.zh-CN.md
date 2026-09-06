@@ -18,7 +18,7 @@ Z=0 基线焦点，不会自动运行 KDE、找峰或求交点。热力图页面
 .\editaplot.cmd setup
 ```
 
-不要只复制 `skill/editaplot`，那样没有绘图 runtime。会 Git 的用户可以 `git clone`；不会 Git
+不要只复制 `skill/doubaoplot`，那样没有绘图 runtime。会 Git 的用户可以 `git clone`；不会 Git
 或没有 GitHub 账号的用户可以下载 Source ZIP 并完整解压。完整步骤见[安装指南](installation.md)。
 我让启动器先复用已有的 64 位 CPython 3.10–3.12；若完全没有兼容 Python，Codex 必须先向你
 说明这是系统级变更并征得明确同意，才可通过官方 winget 以用户范围安装 Python 3.12。

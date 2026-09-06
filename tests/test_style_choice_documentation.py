@@ -10,7 +10,7 @@ def _read(path: str) -> str:
 
 
 def test_reference_policy_gives_explicit_user_style_precedence() -> None:
-    policy = _read("skill/editaplot/references/reference-figures.md")
+    policy = _read("skill/doubaoplot/references/reference-figures.md")
 
     assert "user's explicit, confirmed style request" in policy
     assert "precedence over a conflicting token inferred from the reference" in policy
@@ -31,8 +31,8 @@ def test_reference_policy_gives_explicit_user_style_precedence() -> None:
 def test_xps_style_docs_separate_cosmetics_from_immutable_science() -> None:
     policy = "\n".join(
         (
-            _read("skill/editaplot/references/reference-figures.md"),
-            _read("skill/editaplot/references/origin-safety.md"),
+            _read("skill/doubaoplot/references/reference-figures.md"),
+            _read("skill/doubaoplot/references/origin-safety.md"),
             _read("runtime/templates/xps_adaptive/visual_contract.md"),
             _read("runtime/templates/xps_c1s_fit/visual_contract.md"),
         )

@@ -136,7 +136,7 @@ $env:EDITAPLOT_SKILL_DIR = "<你的 Agent 的 skills 目录>\doubaoplot"
 
 看到这两种，不要去改文件夹权限，也不要用管理员权限重跑。拉最新代码再跑一次 `setup` 即可。
 
-**另外，别用手工复制代替 `setup`。** 把 `skill/editaplot` 直接拷进 skills 目录，Skill 是进去了，但项目专属的 Python 环境没建起来，要等第一次画图才发现。顺带一提：仓库里 Skill 的源目录叫 `skill/editaplot`（目录名是历史遗留），装进宿主之后的名字才是 `doubaoplot`。
+**另外，别用手工复制代替 `setup`。** 把 `skill/doubaoplot` 直接拷进 skills 目录，Skill 是进去了，但项目专属的 Python 环境没建起来，要等第一次画图才发现。顺带一提：仓库里 Skill 的源目录叫 `skill/doubaoplot`（目录名是历史遗留），装进宿主之后的名字才是 `doubaoplot`。
 
 </details>
 

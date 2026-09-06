@@ -11,7 +11,7 @@ from matplotlib.patches import FancyArrowPatch, PathPatch
 
 PRODUCT_ROOT = Path(__file__).resolve().parents[1]
 RUNTIME = PRODUCT_ROOT / "runtime"
-SCRIPTS = PRODUCT_ROOT / "skill" / "editaplot" / "scripts"
+SCRIPTS = PRODUCT_ROOT / "skill" / "doubaoplot" / "scripts"
 SOURCE = RUNTIME / "templates" / "circular_network" / "example_standard.csv"
 
 sys.path.insert(0, str(RUNTIME / "src"))

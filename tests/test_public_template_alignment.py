@@ -5,7 +5,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RUNTIME_SRC = ROOT / "runtime" / "src"
-SKILL_SCRIPTS = ROOT / "skill" / "editaplot" / "scripts"
+SKILL_SCRIPTS = ROOT / "skill" / "doubaoplot" / "scripts"
 for path in (RUNTIME_SRC, SKILL_SCRIPTS):
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))

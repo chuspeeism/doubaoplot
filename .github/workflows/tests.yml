@@ -37,7 +37,7 @@ jobs:
       - name: Lint public control surface
         run: >-
           python -m ruff check --no-cache
-          skill/editaplot/scripts
+          skill/doubaoplot/scripts
           runtime/src/origin_sciplot/app.py
           runtime/src/origin_sciplot/circular_network_layout.py
           runtime/src/origin_sciplot/heatmap_layout.py

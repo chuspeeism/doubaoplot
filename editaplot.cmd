@@ -6,7 +6,8 @@ set "EDITAPLOT_LAUNCHER_ROOT=%~dp0"
 set "EDITAPLOT_BOOTSTRAP="
 set "EDITAPLOT_PYTHON_PROBE=import platform,struct,sys;raise SystemExit(0 if platform.python_implementation()=='CPython' and struct.calcsize('P')*8==64 and sys.version_info[:2] in ((3,10),(3,11),(3,12)) else 1)"
 
-if exist "%EDITAPLOT_LAUNCHER_ROOT%skill\editaplot\scripts\bootstrap_editaplot.py" set "EDITAPLOT_BOOTSTRAP=%EDITAPLOT_LAUNCHER_ROOT%skill\editaplot\scripts\bootstrap_editaplot.py"
+if exist "%EDITAPLOT_LAUNCHER_ROOT%skill\doubaoplot\scripts\bootstrap_editaplot.py" set "EDITAPLOT_BOOTSTRAP=%EDITAPLOT_LAUNCHER_ROOT%skill\doubaoplot\scripts\bootstrap_editaplot.py"
+if not defined EDITAPLOT_BOOTSTRAP if exist "%EDITAPLOT_LAUNCHER_ROOT%skill\editaplot\scripts\bootstrap_editaplot.py" set "EDITAPLOT_BOOTSTRAP=%EDITAPLOT_LAUNCHER_ROOT%skill\editaplot\scripts\bootstrap_editaplot.py"
 if not defined EDITAPLOT_BOOTSTRAP if exist "%EDITAPLOT_LAUNCHER_ROOT%scripts\bootstrap_editaplot.py" set "EDITAPLOT_BOOTSTRAP=%EDITAPLOT_LAUNCHER_ROOT%scripts\bootstrap_editaplot.py"
 
 if not defined EDITAPLOT_BOOTSTRAP (

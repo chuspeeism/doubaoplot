@@ -14,7 +14,7 @@ Linux、WSL、Wine/CrossOver、Parallels 及其他虚拟机均不支持。当前
 - 64 位 CPython 3.10、3.11 或 3.12；CLI/依赖覆盖这三个版本，真实 Origin 端到端基线为 CPython 3.10；
 - 本机已安装兼容目标范围内的 Origin/OriginPro 2021–2026b；2024b / 10.15 是当前唯一
   完整实机基线，其他目标版本会按本机握手、真实 smoke 和模板能力报告兼容状态；
-- 完整的 EditaPlot 仓库，而不只是 `skill/editaplot` 子目录。
+- 完整的 EditaPlot 仓库，而不只是 `skill/doubaoplot` 子目录。
 
 Origin 2020b 及更早版本不在当前外部 `originpro` 路线的支持范围内。
 各版本怎样从“目标范围”进入“当前模板可用”状态，见
@@ -79,7 +79,7 @@ Set-Location editaplot
 GitHub 账号不是必需的。任选一种方式：
 
 1. 在仓库网页点击 **Code → Download ZIP**，下载 Source ZIP；
-2. 完整解压 ZIP，不要只拖出 `skill/editaplot` 文件夹；
+2. 完整解压 ZIP，不要只拖出 `skill/doubaoplot` 文件夹；
 3. 在解压后的仓库根目录打开 PowerShell；
 4. 运行：
 
@@ -94,7 +94,7 @@ GitHub 账号不是必需的。任选一种方式：
 
 ```text
 请从 https://github.com/hang-jin/editaplot 下载完整仓库到一个新文件夹。
-不要只复制 skill/editaplot 子目录。阅读 README.md 和 docs/installation.md，
+不要只复制 skill/doubaoplot 子目录。阅读 README.md 和 docs/installation.md，
 先复用已有的 64 位 CPython 3.10–3.12；若完全没有兼容版本，请先说明安装官方 Python 3.12
 是系统级变更并等我明确同意。之后在仓库根目录运行 editaplot.cmd setup，Python 包只进入
 项目环境。不要安装或修改 Origin。完成后运行 editaplot.cmd doctor，并用中文告诉我
@@ -385,7 +385,7 @@ Set-Location editaplot
 ```
 
 Without Git or a GitHub account, download **Code → Download ZIP**, extract the entire repository,
-open PowerShell in its root, and run `.\editaplot.cmd setup`. Never copy only `skill/editaplot`,
+open PowerShell in its root, and run `.\editaplot.cmd setup`. Never copy only `skill/doubaoplot`,
 because the runtime would be missing. Keep the repository after setup; if it is moved or updated,
 run `.\editaplot.cmd setup` again from its new root. Then attach a data file in Codex and ask:
 
