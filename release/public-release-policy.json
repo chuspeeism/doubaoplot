@@ -2,7 +2,6 @@
   "schema_version": 1,
   "policy_name": "EditaPlot public source release",
   "required_tracked": [
-    ".github/workflows/star-trend.yml",
     ".github/workflows/tests.yml",
     ".github/CODEOWNERS",
     "ASSET_PROVENANCE.md",
@@ -55,7 +54,6 @@
     ".github/CODEOWNERS",
     ".github/dependabot.yml",
     ".github/workflows/public-release.yml",
-    ".github/workflows/star-trend.yml",
     ".github/workflows/tests.yml",
     ".gitignore",
     "AGENTS.md",

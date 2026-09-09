@@ -142,11 +142,8 @@ def test_initial_public_assets_are_deterministic_and_aggregate_only() -> None:
     )
 
 
-def test_source_and_workflow_have_no_identity_collection_route() -> None:
+def test_source_has_no_identity_collection_route() -> None:
     source = (TOOLS / "build_star_trend.py").read_text(encoding="utf-8").casefold()
-    workflow = (
-        PRODUCT_ROOT / ".github" / "workflows" / "star-trend.yml"
-    ).read_text(encoding="utf-8").casefold()
     forbidden = (
         "/stargazers",
         "starred_at",
@@ -162,11 +159,3 @@ def test_source_and_workflow_have_no_identity_collection_route() -> None:
 
     assert "stargazers_count" in source
     assert all(token not in source for token in forbidden)
-    assert all(token not in workflow for token in forbidden)
-    assert 'cron: "17 1 * * *"' in workflow
-    assert "contents: write" in workflow
-    assert "tools/build_star_trend.py" in workflow
-    assert "--render-only" in workflow
-    assert "git switch --orphan metrics-publish" in workflow
-    assert "git push --force-with-lease origin head:metrics" in workflow
-    assert "github_ref_name" not in workflow
