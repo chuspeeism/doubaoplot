@@ -98,7 +98,16 @@ def _candidate_skill_roots() -> list[Path]:
         base = Path(override).expanduser() if override else (home / dot_dir)
         roots.append(base / "skills")
     local_appdata = Path(os.environ.get("LOCALAPPDATA", str(home / "AppData" / "Local")))
-    doubao_root = local_appdata / "Doubao" / "User Data" / "Default" / ".doubao" / "agent_mode" / "workspace" / ".user_skills"
+    doubao_root = (
+        local_appdata
+        / "Doubao"
+        / "User Data"
+        / "Default"
+        / ".doubao"
+        / "agent_mode"
+        / "workspace"
+        / ".user_skills"
+    )
     roots.insert(0, doubao_root)
     return roots
 

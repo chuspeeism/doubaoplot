@@ -13,11 +13,14 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'skill/doubaoplot/scripts'))
 sys.path.insert(0, str(ROOT / 'skill/doubaoplot/selector'))
 sys.path.insert(0, str(ROOT / 'runtime/src'))
-import bootstrap_editaplot as bootstrap
-import editaplot
-import editaplot_core as core
-import selector as chart_selector
-from origin_sciplot.scientific_workflow import apply_scientific_palette_override, ScientificWorkflowError
+import bootstrap_editaplot as bootstrap  # noqa: E402
+import editaplot  # noqa: E402
+import editaplot_core as core  # noqa: E402
+import selector as chart_selector  # noqa: E402
+from origin_sciplot.scientific_workflow import (  # noqa: E402
+    ScientificWorkflowError,
+    apply_scientific_palette_override,
+)
 
 SKILL_ROOT = ROOT / 'skill/doubaoplot'
 
@@ -65,7 +68,12 @@ def test_palette_error_lists_alternatives():
 
 def test_mapping_error_lists_trend_roles():
     with pytest.raises(core.EditaPlotError) as exc:
-        core._prepare_template_for_understanding(ROOT / 'runtime/templates/trend/example_standard.csv', template_id='trend', mapping={}, engine_home=ROOT / 'runtime')
+        core._prepare_template_for_understanding(
+            ROOT / 'runtime/templates/trend/example_standard.csv',
+            template_id='trend',
+            mapping={},
+            engine_home=ROOT / 'runtime',
+        )
     assert exc.value.code == 'mapping_invalid'
     assert 'series' in str(exc.value) and 'x' in str(exc.value)
 
@@ -106,16 +114,45 @@ def test_selector_serves_page_and_receives_pick():
     threading.Thread(target=server.serve_forever, daemon=True).start()
     base = f'http://127.0.0.1:{server.server_address[1]}'
     try:
-        with urllib.request.urlopen(f'{base}/') as response:
+        with urllib.request.urlopen(f'{base}/') as response:  # noqa: S310  地址是本机回环，非用户输入
             assert response.read() == b'<html>selector</html>'
             assert response.headers['Content-Type'] == 'text/html; charset=utf-8'
-        with urllib.request.urlopen(f'{base}/pick?d=' + urllib.parse.quote('画个雨云图')) as response:
+        pick = f'{base}/pick?d=' + urllib.parse.quote('画个雨云图')
+        with urllib.request.urlopen(pick) as response:  # noqa: S310  地址是本机回环，非用户输入
             assert response.headers['Content-Type'] == 'image/gif'
         assert chart_selector._Handler.result['prompt'] == '画个雨云图'
     finally:
         server.server_close()
         chart_selector._Handler.page_bytes = b''
         chart_selector._Handler.result = {}
+
+
+def test_selector_records_the_pick_before_replying(monkeypatch):
+    """回执一旦发出，页面就认定这次选择已送达，所以落地必须发生在回执之前。
+
+    反过来写会在「拿到 200」和「读得到 prompt」之间留一个空窗；
+    Windows CI 上就是在这个空窗里偶发 KeyError: 'prompt'。
+    """
+    seen: list[dict] = []
+    original_reply = chart_selector._Handler._reply
+
+    def _spy(handler, code):
+        seen.append(dict(chart_selector._Handler.result))
+        original_reply(handler, code)
+
+    monkeypatch.setattr(chart_selector._Handler, '_reply', _spy)
+    chart_selector._Handler.result = {}
+    server = ThreadingHTTPServer(('127.0.0.1', 0), chart_selector._Handler)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    pick = f'http://127.0.0.1:{server.server_address[1]}/pick?d=' + urllib.parse.quote('画个雨云图')
+    try:
+        with urllib.request.urlopen(pick):  # noqa: S310  地址是本机回环，非用户输入
+            pass
+    finally:
+        server.server_close()
+        chart_selector._Handler.result = {}
+
+    assert seen == [{'prompt': '画个雨云图'}]
 
 
 def test_selector_does_not_open_a_system_browser_by_default(monkeypatch, capsys):
