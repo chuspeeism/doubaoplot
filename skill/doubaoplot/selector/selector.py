@@ -83,8 +83,10 @@ class _Handler(BaseHTTPRequestHandler):
         if len(text.encode("utf-8")) > MAX_BODY:
             self._reply(413)
             return
-        self._reply(200)
+        # 先落地再回执：回执一发出，页面就认定这次选择已经送达，
+        # 反过来写会让「拿到 200」和「读得到 prompt」之间出现一个空窗。
         _Handler.result["prompt"] = text
+        self._reply(200)
         threading.Thread(target=self.server.shutdown, daemon=True).start()
 
     def log_message(self, *args) -> None:
